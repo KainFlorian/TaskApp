@@ -1,1 +1,1 @@
-{"name":"asdf","subject":"AM","abgabeOrt":"Teams","dueDate":{"year":2020,"monthValue":11,"dayOfMonth":13,"hour":21,"minute":46,"second":37,"nano":682269200,"dayOfWeek":"FRIDAY","dayOfYear":318,"month":"NOVEMBER","chronology":{"id":"ISO","calendarType":"iso8601"}}}
+{"name":"test","subject":"AM","abgabeOrt":"MOODLE","dueDate":{"tag":13,"monat":11,"jahr":2020}}

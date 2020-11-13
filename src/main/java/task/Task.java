@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import date.Date;
 import org.jetbrains.annotations.NotNull;
 import subject.AbgabeOrt;
 import subject.Subject;
@@ -15,10 +16,10 @@ public class Task {
     private final String name;
     private final Subject subject;
     private final AbgabeOrt abgabeOrt;
-    private final LocalDateTime dueDate;
+    private final Date dueDate;
 
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
-                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt,@NotNull @JsonProperty("dueDate") LocalDateTime dueDate){
+                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt,@NotNull @JsonProperty("dueDate") Date dueDate){
         this.name = name;
         this.subject = subject;
         this.abgabeOrt = abgabeOrt;
@@ -52,7 +53,7 @@ public class Task {
     }
 
     @JsonGetter("dueDate")
-    public LocalDateTime getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
@@ -70,5 +71,15 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(name, subject, abgabeOrt, dueDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", subject=" + subject +
+                ", abgabeOrt=" + abgabeOrt +
+                ", dueDate=" + dueDate +
+                '}';
     }
 }

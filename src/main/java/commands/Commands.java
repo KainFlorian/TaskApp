@@ -2,6 +2,7 @@ package commands;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import date.Date;
 import org.jetbrains.annotations.NotNull;
 import subject.AbgabeOrt;
 import subject.Subject;
@@ -60,7 +61,7 @@ public class Commands {
      * @param due Datum
      * @return Liste der Tasks die zu erledigen sind.
      */
-    public static List<Task> getTasksDue(@NotNull LocalDateTime due) {
+    public static List<Task> getTasksDue(@NotNull Date due) {
         List<Task> tasksTillDueDate = new ArrayList<>();
         for (Task task : allTasks) {
             if (due.compareTo(task.getDueDate()) <= 0) {
@@ -107,7 +108,7 @@ public class Commands {
      * @param date Datum
      * @return Alle überfälligen Tasks.
      */
-    public static List<Task> getOverDueTasks(@NotNull LocalDateTime date) {
+    public static List<Task> getOverDueTasks(@NotNull Date date) {
         List<Task> tasksOverDue = new ArrayList<>();
         for (Task task : allTasks) {
             if (date.compareTo(task.getDueDate()) > 0) {
