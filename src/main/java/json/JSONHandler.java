@@ -2,10 +2,10 @@ package json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import task.Task;
+
 
 import java.io.*;
-import java.lang.reflect.ParameterizedType;
+
 import java.util.List;
 
 public class JSONHandler {
@@ -77,6 +77,7 @@ public class JSONHandler {
 
         return objectMapper.readValue(line, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
     }
+
 
 
 }
