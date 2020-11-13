@@ -44,6 +44,6 @@ public enum Subject {
 
     @Override
     public String toString() {
-        return "Subject: " + this.name + ", " + this.teacher;
+        return this.name + ", " + this.teacher;
     }
 }

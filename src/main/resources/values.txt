@@ -1,0 +1,1 @@
+{"name":"test","subject":"AM","abgabeOrt":"MOODLE","dueDate":{"tag":13,"monat":11,"jahr":2020}}

@@ -4,26 +4,35 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import date.Date;
 import org.jetbrains.annotations.NotNull;
+import subject.AbgabeOrt;
 import subject.Subject;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Task {
-    private String name;
-    private Subject subject;
-    private String abgabeOrt;
-    private LocalDateTime dueDate;
+    private final String name;
+    private final Subject subject;
+    private final AbgabeOrt abgabeOrt;
+    private final Date dueDate;
+
+    public final int SUBJECT_FIRST = 1;
+    public final int DATE_FIRST = 2;
+    public final int ORT_FIRST = 3;
+    public final int NAME_FIRST = 3;
+
 
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
-                @NotNull @JsonProperty("abgabeOrt") String abgabeOrt,@JsonProperty LocalDateTime dueDate){
+                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") Date dueDate) {
         this.name = name;
         this.subject = subject;
         this.abgabeOrt = abgabeOrt;
         this.dueDate = dueDate;
     }
 
-    public String toJsonLine(){
+    public String toJsonLine() {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
@@ -45,12 +54,47 @@ public class Task {
     }
 
     @JsonGetter("abgabeOrt")
-    public String getAbgabeOrt() {
+    public AbgabeOrt getAbgabeOrt() {
         return abgabeOrt;
     }
 
     @JsonGetter("dueDate")
-    public LocalDateTime getDueDate() {
+    public Date getDueDate() {
         return dueDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(name, task.name) &&
+                subject == task.subject &&
+                abgabeOrt == task.abgabeOrt &&
+                Objects.equals(dueDate, task.dueDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, subject, abgabeOrt, dueDate);
+    }
+
+    public String toString(int format){
+        switch(format) {
+            case 1:
+                return this.subject + "\n\t" + this.name + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate;
+            case 2:
+                return this.dueDate + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt;
+            case 3:
+                return this.abgabeOrt + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.dueDate;
+            case 4:
+                return this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate;
+        }
+        return toString();
+    }
+
+    @Override
+    public String toString() {
+        return this.toString(NAME_FIRST);
     }
 }
