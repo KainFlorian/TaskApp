@@ -16,7 +16,7 @@ public class Task {
     private LocalDateTime dueDate;
 
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
-                @NotNull @JsonProperty("abgabeOrt") String abgabeOrt, @NotNull @JsonProperty LocalDateTime dueDate){
+                @NotNull @JsonProperty("abgabeOrt") String abgabeOrt,@JsonProperty LocalDateTime dueDate){
         this.name = name;
         this.subject = subject;
         this.abgabeOrt = abgabeOrt;
