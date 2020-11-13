@@ -14,8 +14,6 @@ public enum AbgabeOrt {
 
     @Override
     public String toString() {
-        return "AbgabeOrt{" +
-                "name='" + name + '\'' +
-                '}';
+        return this.name;
     }
 }

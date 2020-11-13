@@ -18,15 +18,21 @@ public class Task {
     private final AbgabeOrt abgabeOrt;
     private final Date dueDate;
 
+    public final int SUBJECT_FIRST = 1;
+    public final int DATE_FIRST = 2;
+    public final int ORT_FIRST = 3;
+    public final int NAME_FIRST = 3;
+
+
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
-                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt,@NotNull @JsonProperty("dueDate") Date dueDate){
+                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") Date dueDate) {
         this.name = name;
         this.subject = subject;
         this.abgabeOrt = abgabeOrt;
         this.dueDate = dueDate;
     }
 
-    public String toJsonLine(){
+    public String toJsonLine() {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
@@ -73,13 +79,22 @@ public class Task {
         return Objects.hash(name, subject, abgabeOrt, dueDate);
     }
 
+    public String toString(int format){
+        switch(format) {
+            case 1:
+                return this.subject + "\n\t" + this.name + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate;
+            case 2:
+                return this.dueDate + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt;
+            case 3:
+                return this.abgabeOrt + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.dueDate;
+            case 4:
+                return this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate;
+        }
+        return toString();
+    }
+
     @Override
     public String toString() {
-        return "Task{" +
-                "name='" + name + '\'' +
-                ", subject=" + subject +
-                ", abgabeOrt=" + abgabeOrt +
-                ", dueDate=" + dueDate +
-                '}';
+        return this.toString(NAME_FIRST);
     }
 }
