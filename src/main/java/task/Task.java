@@ -34,6 +34,8 @@ public class Task {
         return "";
     }
 
+
+
     @JsonGetter("name")
     public String getName() {
         return name;
@@ -52,5 +54,16 @@ public class Task {
     @JsonGetter("dueDate")
     public LocalDateTime getDueDate() {
         return dueDate;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Task{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", subject=").append(subject);
+        sb.append(", abgabeOrt='").append(abgabeOrt).append('\'');
+        sb.append(", dueDate=").append(dueDate);
+        sb.append('}');
+        return sb.toString();
     }
 }
