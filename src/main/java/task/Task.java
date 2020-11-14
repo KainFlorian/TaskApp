@@ -6,10 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import date.Date;
 import org.jetbrains.annotations.NotNull;
-import subject.AbgabeOrt;
-import subject.Subject;
+import enums.AbgabeOrt;
+import enums.Subject;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -24,7 +23,7 @@ public class Task {
     public final int NAME_FIRST = 3;
 
 
-    public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
+    public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("enums") Subject subject,
                 @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") Date dueDate) {
         this.name = name;
         this.subject = subject;
@@ -50,7 +49,7 @@ public class Task {
         return name;
     }
 
-    @JsonGetter("subject")
+    @JsonGetter("enums")
     public Subject getSubject() {
         return subject;
     }
