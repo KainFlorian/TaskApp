@@ -3,6 +3,7 @@ package json;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
+import task.Task;
 
 
 import java.io.*;
@@ -60,13 +61,13 @@ public class JSONHandler {
     /**
      * Generiert ein List Object mit der angegebenen JSON line
      *
+     * @param <T>    Generic für die Liste
      * @param line   JSON line die in eine Liste Umgewandelt werden soll
      * @param tClass Klasse des Listen Typs z.B.: Task.class
-     * @param <T>    Generic für die Liste
      * @return Liste aus dem JSON string <code>line</code> erzeugten Objeckten <code>T</code>
      * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht Jackson erstellt werden kann
      */
-    public static <T> List<T> listFromJSONSTRING(@NotNull String line,@NotNull Class<T> tClass) throws JsonProcessingException {
+    public static <T> List<T> listFromJSONSTRING(@NotNull String line, @NotNull Class<Task> tClass) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         return objectMapper.readValue(line, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));

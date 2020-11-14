@@ -1,6 +1,7 @@
 package task;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +18,13 @@ public class Task {
     private final AbgabeOrt abgabeOrt;
     private final Date dueDate;
 
+    @JsonIgnore
     public final int SUBJECT_FIRST = 1;
+    @JsonIgnore
     public final int DATE_FIRST = 2;
+    @JsonIgnore
     public final int ORT_FIRST = 3;
+    @JsonIgnore
     public final int NAME_FIRST = 3;
 
 
@@ -41,7 +46,6 @@ public class Task {
         }
         return "";
     }
-
 
 
     @JsonGetter("name")
@@ -81,16 +85,16 @@ public class Task {
         return Objects.hash(name, subject, abgabeOrt, dueDate);
     }
 
-    public String toString(int format){
-        switch(format) {
+    public String toString(int format) {
+        switch (format) {
             case 1:
-                return this.subject + "\n\t" + this.name + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate;
+                return this.subject + "\n\t" + this.name + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate + "\n";
             case 2:
-                return this.dueDate + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt;
+                return this.dueDate + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n";
             case 3:
-                return this.abgabeOrt + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.dueDate;
+                return this.abgabeOrt + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.dueDate + "\n";
             case 4:
-                return this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate;
+                return this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate + "\n";
         }
         return toString();
     }
@@ -98,6 +102,5 @@ public class Task {
     @Override
     public String toString() {
         return this.toString(NAME_FIRST);
-
     }
 }

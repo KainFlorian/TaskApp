@@ -1,6 +1,7 @@
 package enums;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 public enum Subject {
 
@@ -23,7 +24,7 @@ public enum Subject {
     private String name;
     private String teacher;
 
-    private Subject(String name, String teacher){
+    Subject(String name, String teacher){
         this.name = name;
         this.teacher = teacher;
     }

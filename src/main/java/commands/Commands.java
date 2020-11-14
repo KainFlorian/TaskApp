@@ -3,6 +3,7 @@ package commands;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import date.Date;
+import json.JSONHandler;
 import org.jetbrains.annotations.NotNull;
 import enums.AbgabeOrt;
 import enums.Subject;
@@ -28,7 +29,7 @@ public class Commands {
 
     static {
         allTasks = new ArrayList<>();
-        loadDataFromFile("src/main/resources/values.txt");
+        loadDataFromFile("src/main/resources/test.txt");
     }
 
     /**
@@ -42,7 +43,7 @@ public class Commands {
             ObjectMapper mapper = new ObjectMapper();
             while((line = reader.readLine()) != null){
                 try {
-                    allTasks.add(mapper.readValue(line, Task.class));
+                    allTasks.addAll(JSONHandler.listFromJSONSTRING(line, Task.class));
                 } catch (JsonProcessingException e) {
                     System.err.println("JSON Konnte nicht geparst werden");
                 }
