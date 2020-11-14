@@ -1,0 +1,40 @@
+[ {
+  "name" : "asdf",
+  "subject" : "AM",
+  "abgabeOrt" : "EMAIL",
+  "dueDate" : {
+    "tag" : 14,
+    "monat" : 11,
+    "jahr" : 2020
+  },
+  "SUBJECT_FIRST" : 1,
+  "DATE_FIRST" : 2,
+  "ORT_FIRST" : 3,
+  "NAME_FIRST" : 3
+}, {
+  "name" : "bsdf",
+  "subject" : "D",
+  "abgabeOrt" : "EMAIL",
+  "dueDate" : {
+    "tag" : 14,
+    "monat" : 11,
+    "jahr" : 2020
+  },
+  "SUBJECT_FIRST" : 1,
+  "DATE_FIRST" : 2,
+  "ORT_FIRST" : 3,
+  "NAME_FIRST" : 3
+}, {
+  "name" : "csdf",
+  "subject" : "E",
+  "abgabeOrt" : "EMAIL",
+  "dueDate" : {
+    "tag" : 14,
+    "monat" : 11,
+    "jahr" : 2020
+  },
+  "SUBJECT_FIRST" : 1,
+  "DATE_FIRST" : 2,
+  "ORT_FIRST" : 3,
+  "NAME_FIRST" : 3
+} ]
