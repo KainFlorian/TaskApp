@@ -1,4 +1,3 @@
-
 import date.Date;
 import enums.AbgabeOrt;
 import enums.Files;
@@ -17,9 +16,7 @@ public class Main {
         a.add(new Task("csdf",Subject.E, AbgabeOrt.EMAIL,new Date()));
         System.out.println("jojo");
         try {
-
-            JSONHandler.writeToFile(JSONHandler.listToJSONString(a), Files.Tasks.getFilepath());
-
+            JSONHandler.writeToFile(JSONHandler.listToJSONString(a), Files.TASKS.getFilepath());
         }
         catch(Exception e){
             e.printStackTrace();

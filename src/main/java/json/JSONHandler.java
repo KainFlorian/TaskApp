@@ -18,18 +18,19 @@ public class JSONHandler {
      * @param list Liste die in JSON geparst werden soll
      * @return JSON String von der Liste
      */
-    @SuppressWarnings("rawtypes")//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
+    @SuppressWarnings("rawtypes")
+//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
     public static String listToJSONString(@NotNull List list) throws IOException {
-        return listToJSONString(list,true);
+        return listToJSONString(list, true);
     }
 
-    @SuppressWarnings("rawtypes")//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
-    public static String listToJSONString(@NotNull List list, boolean prettifyOutput) throws IOException{
+    @SuppressWarnings("rawtypes")
+//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
+    public static String listToJSONString(@NotNull List list, boolean prettifyOutput) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
-        if(prettifyOutput){
+        if (prettifyOutput) {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
-        }
-        else{
+        } else {
             return mapper.writeValueAsString(list);
         }
     }
@@ -42,8 +43,8 @@ public class JSONHandler {
      * @param file der Filename
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
-    public static void writeToFile(@NotNull String text,@NotNull String file) throws IOException {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+    public static void writeToFile(@NotNull String text, @NotNull String file) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(text);
         }
     }
@@ -55,8 +56,8 @@ public class JSONHandler {
      * @param file der Filename
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
-    public static void appendToFile(@NotNull String text,@NotNull String file) throws IOException {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+    public static void appendToFile(@NotNull String text, @NotNull String file) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.append(text);
         }
     }

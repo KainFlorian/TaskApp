@@ -47,7 +47,6 @@ public class Task {
         return "";
     }
 
-
     @JsonGetter("name")
     public String getName() {
         return name;

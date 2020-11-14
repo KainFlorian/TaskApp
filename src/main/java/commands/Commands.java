@@ -41,7 +41,7 @@ public class Commands {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             ObjectMapper mapper = new ObjectMapper();
-            while((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 try {
                     allTasks.addAll(JSONHandler.listFromJSONSTRING(line, Task.class));
                 } catch (JsonProcessingException e) {
@@ -50,7 +50,7 @@ public class Commands {
             }
         } catch (FileNotFoundException e) {
             System.err.println("Datei konnte nicht gefunden werden!");
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Fehler beim Lesen der Datei!");
         }
     }
