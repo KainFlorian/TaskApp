@@ -18,17 +18,20 @@ public class JSONHandler {
      * @param list Liste die in JSON geparst werden soll
      * @return JSON String von der Liste
      */
-    @SuppressWarnings("rawtypes")
-//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
+    @SuppressWarnings("rawtypes")//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
     public static String listToJSONString(@NotNull List list) throws IOException {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        return listToJSONString(list,true);
+    }
+
+    @SuppressWarnings("rawtypes")//Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
+    public static String listToJSONString(@NotNull List list, boolean prettifyOutput) throws IOException{
         final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.writeValue(out, list);
-
-        final byte[] data = out.toByteArray();
-
-        return new String(data);
+        if(prettifyOutput){
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+        }
+        else{
+            return mapper.writeValueAsString(list);
+        }
     }
 
     /**
