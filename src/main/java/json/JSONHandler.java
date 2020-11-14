@@ -2,6 +2,7 @@ package json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 
 
 import java.io.*;
@@ -18,12 +19,7 @@ public class JSONHandler {
      */
     @SuppressWarnings("rawtypes")
 //Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
-    public static String listToJSONString(List list) throws IOException {
-
-        if (list == null) {
-            throw new NullPointerException();
-        }
-
+    public static String listToJSONString(@NotNull List list) throws IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
@@ -42,7 +38,7 @@ public class JSONHandler {
      * @param file der Filename
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
-    public static void writeToFile(String text, String file) throws IOException {
+    public static void writeToFile(@NotNull String text,@NotNull String file) throws IOException {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(text);
         }
@@ -55,7 +51,7 @@ public class JSONHandler {
      * @param file der Filename
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
-    public static void appendToFile(String text, String file) throws IOException {
+    public static void appendToFile(@NotNull String text,@NotNull String file) throws IOException {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.append(text);
         }
@@ -70,7 +66,7 @@ public class JSONHandler {
      * @return Liste aus dem JSON string <code>line</code> erzeugten Objeckten <code>T</code>
      * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht Jackson erstellt werden kann
      */
-    public static <T> List<T> listFromJSONSTRING(String line, Class<T> tClass) throws JsonProcessingException {
+    public static <T> List<T> listFromJSONSTRING(@NotNull String line,@NotNull Class<T> tClass) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         return objectMapper.readValue(line, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
