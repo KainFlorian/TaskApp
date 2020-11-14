@@ -23,7 +23,7 @@ public class Task {
     public final int NAME_FIRST = 3;
 
 
-    public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("enums") Subject subject,
+    public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
                 @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") Date dueDate) {
         this.name = name;
         this.subject = subject;
@@ -49,7 +49,7 @@ public class Task {
         return name;
     }
 
-    @JsonGetter("enums")
+    @JsonGetter("subject")
     public Subject getSubject() {
         return subject;
     }
