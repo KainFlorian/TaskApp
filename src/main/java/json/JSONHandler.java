@@ -43,10 +43,9 @@ public class JSONHandler {
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
     public static void writeToFile(String text, String file) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(text);
-
-        writer.close();
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(text);
+        }
     }
 
     /**
@@ -56,11 +55,10 @@ public class JSONHandler {
      * @param file der Filename
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
-    public static void appendToFILE(String text, String file) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.append(text);
-
-        writer.close();
+    public static void appendToFile(String text, String file) throws IOException {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.append(text);
+        }
     }
 
     /**
