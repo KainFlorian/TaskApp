@@ -46,7 +46,7 @@ public class Subject implements Comparable {
             if(this.subjectName.compareTo(((Subject) o).subjectName) > 0){
                 return this.subjectName.compareTo(((Subject) o).subjectName);
             }
-            return this.subjectTeacher.compareTo(((Subject) o).subjectTeacher)
+            return this.subjectTeacher.compareTo(((Subject) o).subjectTeacher);
         }
         return 1;
     }
