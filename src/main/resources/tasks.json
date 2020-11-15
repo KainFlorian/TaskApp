@@ -1,40 +1,37 @@
 [ {
-  "name" : "asdf",
-  "subject" : "AM",
-  "abgabeOrt" : "EMAIL",
+  "name" : "adsf",
+  "subject" : {
+    "subjectName" : "AM",
+    "subjectTeacher" : "RIEE"
+  },
+  "abgabeOrt" : "TEAMS",
   "dueDate" : {
-    "tag" : 14,
+    "tag" : 15,
     "monat" : 11,
     "jahr" : 2020
-  },
-  "SUBJECT_FIRST" : 1,
-  "DATE_FIRST" : 2,
-  "ORT_FIRST" : 3,
-  "NAME_FIRST" : 3
+  }
 }, {
-  "name" : "bsdf",
-  "subject" : "D",
-  "abgabeOrt" : "EMAIL",
+  "name" : "text",
+  "subject" : {
+    "subjectName" : "POS",
+    "subjectTeacher" : "SCRE"
+  },
+  "abgabeOrt" : "MOODLE",
   "dueDate" : {
-    "tag" : 14,
+    "tag" : 15,
     "monat" : 11,
     "jahr" : 2020
-  },
-  "SUBJECT_FIRST" : 1,
-  "DATE_FIRST" : 2,
-  "ORT_FIRST" : 3,
-  "NAME_FIRST" : 3
+  }
 }, {
-  "name" : "csdf",
-  "subject" : "E",
+  "name" : "cock",
+  "subject" : {
+    "subjectName" : "TINF",
+    "subjectTeacher" : "WEIX"
+  },
   "abgabeOrt" : "EMAIL",
   "dueDate" : {
-    "tag" : 14,
+    "tag" : 15,
     "monat" : 11,
     "jahr" : 2020
-  },
-  "SUBJECT_FIRST" : 1,
-  "DATE_FIRST" : 2,
-  "ORT_FIRST" : 3,
-  "NAME_FIRST" : 3
+  }
 } ]

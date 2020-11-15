@@ -34,7 +34,7 @@ public class Date implements Comparable<Date>{
      * @param dateString zu parsender String
      */
     public Date(@NotNull String dateString) {
-        String[] einzelneDaten = dateString.split(".");
+        String[] einzelneDaten = dateString.split("\\.");
         if (einzelneDaten.length != 3)
             throw new IllegalArgumentException("Ungültiger String");
         if (einzelneDaten[2].length() != 4)
@@ -99,10 +99,7 @@ public class Date implements Comparable<Date>{
      * @return <code>true</code>, wenn <code>jahr</code> ein Schaltjahr ist, <code>false</code> sonst
      */
     public static boolean isSchaltjahr(int jahr) {
-        if ((jahr % 4 == 0 && jahr % 100 != 0) || jahr % 400 == 0) {
-            return true;
-        }
-        return false;
+        return (jahr % 4 == 0 && jahr % 100 != 0) || jahr % 400 == 0;
     }
 
     @Override
@@ -447,7 +444,6 @@ public class Date implements Comparable<Date>{
      * @return true, wenn das Datum korrekt ist, ansonsten falls.
      */
     public static boolean korrektDatum(int tag, int monat, int jahr) {
-
         if (jahr < 1900) {
             return false;
         }
@@ -455,17 +451,9 @@ public class Date implements Comparable<Date>{
         if (monat > 12 || monat < 1) {
             return false;
         }
-
         // maximale Tage auf die des jeweiligen Monats setzen
         int maxd = maxDaysInMonth(monat, jahr);
-
-
-        if (tag <= maxd) {
-            return true;
-        }
-        return false;
-
-
+        return tag <= maxd;
     }
 
     /**
