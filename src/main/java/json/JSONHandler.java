@@ -1,6 +1,7 @@
 package json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import task.Task;
@@ -8,6 +9,8 @@ import task.Task;
 
 import java.io.*;
 
+import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JSONHandler {
@@ -75,5 +78,26 @@ public class JSONHandler {
         ObjectMapper objectMapper = new ObjectMapper();
 
         return objectMapper.readValue(line, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
+    }
+
+    /**
+     * Liest die Json-Daten aus dem übergebenen File und liefert diese in einer List wieder zurück.
+     *
+     * @param fileName Datei aus der gelesen werden soll.
+     * @return Liste der Daten
+     * @throws IOException
+     */
+    // TODO: Generisch machen
+    public static List<Task> listFromFile(@NotNull String fileName) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>() {
+            });
+        }
     }
 }

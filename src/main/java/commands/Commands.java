@@ -39,20 +39,15 @@ public class Commands {
      * @param fileName File aus dem gelesen werden sollte.
      */
     private static void loadDataFromFile(@NotNull String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            StringBuilder builder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            allTasks = mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>(){});
-
-        } catch (FileNotFoundException e) {
-            System.err.println("Datei konnte nicht gefunden werden!");
+        try {
+            allTasks = JSONHandler.listFromFile(fileName);
         } catch (IOException e) {
-            System.err.println("Fehler beim Lesen der Datei!");
+            e.printStackTrace();
         }
+    }
+
+    public static List<Task> getAllTasks(){
+        return allTasks;
     }
 
     /**
