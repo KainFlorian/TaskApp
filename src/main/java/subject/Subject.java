@@ -59,4 +59,8 @@ public class Subject implements Comparable<Subject> {
         return Objects.hash(subjectName, subjectTeacher);
     }
 
+    @Override
+    public String toString() {
+        return this.subjectName + ": " + this.subjectTeacher;
+    }
 }

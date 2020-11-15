@@ -1,6 +1,7 @@
 package commands;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import date.Date;
 import json.JSONHandler;
@@ -29,7 +30,7 @@ public class Commands {
 
     static {
         allTasks = new ArrayList<>();
-        loadDataFromFile("src/main/resources/test.txt");
+        loadDataFromFile("src/main/resources/tasks.json");
     }
 
     /**
@@ -39,15 +40,14 @@ public class Commands {
      */
     private static void loadDataFromFile(@NotNull String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            StringBuilder builder = new StringBuilder();
             String line;
-            ObjectMapper mapper = new ObjectMapper();
             while ((line = reader.readLine()) != null) {
-                try {
-                    allTasks.addAll(JSONHandler.listFromJSONSTRING(line, Task.class));
-                } catch (JsonProcessingException e) {
-                    System.err.println("JSON Konnte nicht geparst werden");
-                }
+                builder.append(line);
             }
+            ObjectMapper mapper = new ObjectMapper();
+            allTasks = mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>(){});
+
         } catch (FileNotFoundException e) {
             System.err.println("Datei konnte nicht gefunden werden!");
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class Commands {
     public static List<Task> getTasksDue(@NotNull Date due) {
         List<Task> tasksTillDueDate = new ArrayList<>();
         for (Task task : allTasks) {
-            if (due.compareTo(task.getDueDate()) <= 0) {
+            if (task.getDueDate().compareTo(due) <= 0) {
                 tasksTillDueDate.add(task);
             }
         }
@@ -80,7 +80,7 @@ public class Commands {
     public static List<Task> getTasksInSubject(@NotNull Subject subject) {
         List<Task> tasksInSubject = new ArrayList<>();
         for (Task task : allTasks) {
-            if (task.getSubject() == subject) {
+            if (task.getSubject().equals(subject)) {
                 tasksInSubject.add(task);
             }
         }
