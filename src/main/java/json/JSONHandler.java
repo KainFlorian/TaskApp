@@ -69,7 +69,7 @@ public class JSONHandler {
      * @param line   JSON line die in eine Liste Umgewandelt werden soll
      * @param tClass Klasse des Listen Typs z.B.: Task.class
      * @return Liste aus dem JSON string <code>line</code> erzeugten Objeckten <code>T</code>
-     * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht Jackson erstellt werden kann
+     * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht mit Jackson erstellt werden kann
      */
     public static <T> List<T> listFromJSONSTRING(@NotNull String line, @NotNull Class<Task> tClass) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();

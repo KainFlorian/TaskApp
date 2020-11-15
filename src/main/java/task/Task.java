@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import date.Date;
 import org.jetbrains.annotations.NotNull;
 import enums.AbgabeOrt;
-import enums.Subject;
+import subject.Subject;
 
 import java.util.Objects;
 

@@ -6,7 +6,7 @@ import date.Date;
 import json.JSONHandler;
 import org.jetbrains.annotations.NotNull;
 import enums.AbgabeOrt;
-import enums.Subject;
+import subject.Subject;
 import task.Task;
 
 import java.io.BufferedReader;
