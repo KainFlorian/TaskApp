@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 
 public enum Files {
 
-    Tasks("src/main/resources/tasks.json");
+    TASKS("src/main/resources/tasks.json");
 
 
 
