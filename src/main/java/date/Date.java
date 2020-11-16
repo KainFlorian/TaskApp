@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 
 public class Date implements Comparable<Date>{
 
@@ -17,7 +20,8 @@ public class Date implements Comparable<Date>{
     private int tag = 0;
     private int monat = 0;
     private int jahr = 0;
-
+    private int hour = 0;
+    private int minute = 0;
     /**
      * Erzeugt eine Datumsinstanz mit dem aktuellen Systemdatum.
      */
@@ -26,6 +30,11 @@ public class Date implements Comparable<Date>{
         this.tag = today.getDayOfMonth();
         this.monat = today.getMonthValue();
         this.jahr = today.getYear();
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar calendar = Calendar.getInstance();
+        String[] splitted = df.format(calendar.getTime()).split(":");
+        this.hour = Integer.parseInt(splitted[0]);
+        this.minute = Integer.parseInt(splitted[1]);
     }
 
     /**
@@ -33,6 +42,7 @@ public class Date implements Comparable<Date>{
      *
      * @param dateString zu parsender String
      */
+    @Deprecated
     public Date(@NotNull String dateString) {
         String[] einzelneDaten = dateString.split("\\.");
         if (einzelneDaten.length != 3)
@@ -51,13 +61,14 @@ public class Date implements Comparable<Date>{
      *
      * @param tage die Tage seit dem 1.1.1900; muss >= 0 sein
      */
+    @Deprecated
     public Date(int tage) {
         if (tage < 0)
             throw new IllegalArgumentException("Tage seit dem 1.1.1900 müssen positiv sein: " + tage);
         if (tage > 401767)
             throw new IllegalArgumentException("Tage gehen über das Jahr 3000 hinaus.");
 
-        Date help = new Date(1, 1, 1900);
+        Date help = new Date(1, 1, 1900, 0, 0);
         help.addiereTage(tage);
         this.jahr = help.jahr;
         this.monat = help.monat;
@@ -72,12 +83,14 @@ public class Date implements Comparable<Date>{
      * @param monat das Monat, 1 - 12
      * @param jahr  das Jahr, 1900 - 3000
      */
-    public Date(@JsonProperty("tag") int tag, @JsonProperty("monat") int monat, @JsonProperty("jahr") int jahr) {
+    public Date(@JsonProperty("tag") int tag, @JsonProperty("monat") int monat, @JsonProperty("jahr") int jahr, @JsonProperty("hour") int hour, @JsonProperty("minute") int minute) {
         if (jahr > 3000 || jahr < 1900)
             throw new IllegalArgumentException(jahr + " ist ungültig");
         this.jahr = jahr;
         this.setMonat(monat);
         this.setTag(tag);
+        this.setHour(hour);
+        this.setMinute(minute);
     }
 
     /**
@@ -280,7 +293,7 @@ public class Date implements Comparable<Date>{
      */
     @Override
     public String toString() {
-        return String.format("%02d.%02d.%04d", this.tag, this.monat, this.jahr);
+        return String.format("%02d.%02d.%04d %02d:%02d", this.tag, this.monat, this.jahr, this.hour, this.minute);
     }
 
     /**
@@ -359,6 +372,32 @@ public class Date implements Comparable<Date>{
         }
 
         this.tag = tag;
+    }
+
+    @JsonIgnore
+    public void setHour(int hour){
+        if(hour < 0 || hour > 24){
+            throw new IllegalArgumentException();
+        }
+        this.hour = hour;
+    }
+
+    @JsonGetter("hour")
+    public int getHour(){
+        return this.hour;
+    }
+
+    @JsonGetter("minute")
+    public int getMinute() {
+        return minute;
+    }
+
+    @JsonIgnore
+    public void setMinute(int minute) {
+        if(minute < 0 || minute > 59){
+            throw new IllegalArgumentException();
+        }
+        this.minute = minute;
     }
 
     /**

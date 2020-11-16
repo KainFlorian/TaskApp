@@ -1,20 +1,20 @@
 package subject;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 
-@SuppressWarnings("rawtypes")//Fuck Comparable
-public class Subject implements Comparable {
-     private String subjectName;
-     private String subjectTeacher;
+public class Subject implements Comparable<Subject> {
+    private String subjectName;
+    private String subjectTeacher;
 
-     //TODO Vielleicht noch Uhrzeit speichern
+    //TODO Vielleicht noch Uhrzeit speichern
 
-    public Subject(@NotNull String subjectName, @NotNull String subjectLehrer) {
+    public Subject(@NotNull @JsonProperty("subjectName") String subjectName, @NotNull @JsonProperty("subjectTeacher") String subjectLehrer) {
         this.subjectName = subjectName;
         this.subjectTeacher = subjectLehrer;
     }
@@ -24,7 +24,6 @@ public class Subject implements Comparable {
         return subjectName;
     }
 
-    @JsonSetter("subjectName")
     public void setSubjectName(@NotNull String subjectName) {
         this.subjectName = subjectName;
     }
@@ -34,21 +33,16 @@ public class Subject implements Comparable {
         return subjectTeacher;
     }
 
-    @JsonSetter("subjectTeacher")
     public void setSubjectTeacher(@NotNull String subjectLehrer) {
         this.subjectTeacher = subjectLehrer;
     }
 
 
     @Override
-    public int compareTo(@NotNull Object o) {
-        if(o instanceof Subject){
-            if(this.subjectName.compareTo(((Subject) o).subjectName) > 0){
-                return this.subjectName.compareTo(((Subject) o).subjectName);
-            }
-            return this.subjectTeacher.compareTo(((Subject) o).subjectTeacher);
-        }
-        return 1;
+    public int compareTo(@NotNull Subject o) {
+        if (this.subjectName.compareTo(o.subjectName) > 0)
+            return this.subjectName.compareTo(o.subjectName);
+        return this.subjectTeacher.compareTo(o.subjectTeacher);
     }
 
     @Override
@@ -65,4 +59,8 @@ public class Subject implements Comparable {
         return Objects.hash(subjectName, subjectTeacher);
     }
 
+    @Override
+    public String toString() {
+        return this.subjectName + ": " + this.subjectTeacher;
+    }
 }

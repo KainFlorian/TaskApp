@@ -1,8 +1,12 @@
 package commands;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import date.DateTime;
+import json.JSONHandler;
+
 import org.jetbrains.annotations.NotNull;
 import enums.AbgabeOrt;
 import subject.Subject;
@@ -28,7 +32,7 @@ public class Commands {
 
     static {
         allTasks = new ArrayList<>();
-        loadDataFromFile("src/main/resources/values.txt");
+        loadDataFromFile("src/main/resources/tasks.json");
     }
 
     /**
@@ -37,21 +41,15 @@ public class Commands {
      * @param fileName File aus dem gelesen werden sollte.
      */
     private static void loadDataFromFile(@NotNull String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            ObjectMapper mapper = new ObjectMapper();
-            while((line = reader.readLine()) != null){
-                try {
-                    allTasks.add(mapper.readValue(line, Task.class));
-                } catch (JsonProcessingException e) {
-                    System.err.println("JSON Konnte nicht geparst werden");
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Datei konnte nicht gefunden werden!");
-        } catch (IOException e){
-            System.err.println("Fehler beim Lesen der Datei!");
+        try {
+            allTasks = JSONHandler.listFromFile(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    public static List<Task> getAllTasks(){
+        return allTasks;
     }
 
     /**
@@ -63,7 +61,7 @@ public class Commands {
     public static List<Task> getTasksDue(@NotNull DateTime due) {
         List<Task> tasksTillDueDate = new ArrayList<>();
         for (Task task : allTasks) {
-            if (due.compareTo(task.getDueDate()) <= 0) {
+            if (task.getDueDate().compareTo(due) <= 0) {
                 tasksTillDueDate.add(task);
             }
         }
@@ -79,7 +77,7 @@ public class Commands {
     public static List<Task> getTasksInSubject(@NotNull Subject subject) {
         List<Task> tasksInSubject = new ArrayList<>();
         for (Task task : allTasks) {
-            if (task.getSubject() == subject) {
+            if (task.getSubject().equals(subject)) {
                 tasksInSubject.add(task);
             }
         }

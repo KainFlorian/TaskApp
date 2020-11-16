@@ -1,40 +1,43 @@
 [ {
-  "name" : "asdf",
-  "subject" : "AM",
-  "abgabeOrt" : "EMAIL",
-  "dueDate" : {
-    "tag" : 14,
-    "monat" : 11,
-    "jahr" : 2020
+  "name" : "adsf",
+  "subject" : {
+    "subjectName" : "AM",
+    "subjectTeacher" : "RIEE"
   },
-  "SUBJECT_FIRST" : 1,
-  "DATE_FIRST" : 2,
-  "ORT_FIRST" : 3,
-  "NAME_FIRST" : 3
+  "abgabeOrt" : "TEAMS",
+  "dueDate" : {
+    "tag" : 15,
+    "monat" : 11,
+    "jahr" : 2020,
+    "hour" : 22,
+    "minute" : 31
+  }
 }, {
-  "name" : "bsdf",
-  "subject" : "D",
-  "abgabeOrt" : "EMAIL",
-  "dueDate" : {
-    "tag" : 14,
-    "monat" : 11,
-    "jahr" : 2020
+  "name" : "text",
+  "subject" : {
+    "subjectName" : "POS",
+    "subjectTeacher" : "SCRE"
   },
-  "SUBJECT_FIRST" : 1,
-  "DATE_FIRST" : 2,
-  "ORT_FIRST" : 3,
-  "NAME_FIRST" : 3
+  "abgabeOrt" : "MOODLE",
+  "dueDate" : {
+    "tag" : 15,
+    "monat" : 11,
+    "jahr" : 2020,
+    "hour" : 22,
+    "minute" : 31
+  }
 }, {
-  "name" : "csdf",
-  "subject" : "E",
+  "name" : "cock",
+  "subject" : {
+    "subjectName" : "TINF",
+    "subjectTeacher" : "WEIX"
+  },
   "abgabeOrt" : "EMAIL",
   "dueDate" : {
-    "tag" : 14,
+    "tag" : 15,
     "monat" : 11,
-    "jahr" : 2020
-  },
-  "SUBJECT_FIRST" : 1,
-  "DATE_FIRST" : 2,
-  "ORT_FIRST" : 3,
-  "NAME_FIRST" : 3
+    "jahr" : 2020,
+    "hour" : 22,
+    "minute" : 31
+  }
 } ]
