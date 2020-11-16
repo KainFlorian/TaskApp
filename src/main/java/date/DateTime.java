@@ -5,14 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collections;
 
-public class Date implements Comparable<Date>{
+public class DateTime implements Comparable<DateTime>{
 
     public final static int FORMAT_SHORT = 0;
     public final static int FORMAT_NORMAL = 1;
     public final static int FORMAT_LONG = 2;
     public final static int FORMAT_US = 3;
+
+    private int sekunden = 0;
+    private int minuten = 0;
+    private int stunden = 0;
 
     private int tag = 0;
     private int monat = 0;
@@ -21,28 +26,45 @@ public class Date implements Comparable<Date>{
     /**
      * Erzeugt eine Datumsinstanz mit dem aktuellen Systemdatum.
      */
-    public Date() {
-        LocalDate today = LocalDate.now();
+    public DateTime() {
+        LocalDateTime today = LocalDateTime.now();
+
+        this.sekunden = today.getSecond();
+        this.minuten = today.getMinute();
+        this.stunden = today.getHour();
+
         this.tag = today.getDayOfMonth();
         this.monat = today.getMonthValue();
         this.jahr = today.getYear();
+
     }
 
     /**
-     * Erzeugt eine Datumsinstanz im Format TT.MM.YYYY.
+     * Erzeugt eine Datumsinstanz im Format "TT-MM-YYYY hh:mm:ss" .
      *
      * @param dateString zu parsender String
      */
-    public Date(@NotNull String dateString) {
-        String[] einzelneDaten = dateString.split("\\.");
-        if (einzelneDaten.length != 3)
+    public DateTime(@NotNull String dateString)  throws NumberFormatException{
+
+        String[] data = dateString.split("\\s+");
+
+        String[] dateDaten = data[0].split("-");
+        String[] timeDaten = data[1].split(":");
+
+
+        if (dateDaten.length != 3 || timeDaten.length != 3)
             throw new IllegalArgumentException("Ungültiger String");
-        if (einzelneDaten[2].length() != 4)
+        if (dateDaten[2].length() != 4)
             throw new IllegalArgumentException("Ungültige Länge des Jahres");
-        this.jahr = Integer.parseInt(einzelneDaten[2]);
-        this.monat = Integer.parseInt(einzelneDaten[1]);
-        this.tag = Integer.parseInt(einzelneDaten[0]);
-        if (!korrektDatum(this.jahr, this.monat, this.tag))
+
+        this.jahr = Integer.parseInt(dateDaten[2]);
+        this.monat = Integer.parseInt(dateDaten[1]);
+        this.tag = Integer.parseInt(dateDaten[0]);
+
+        this.stunden = Integer.parseInt(timeDaten[2]);
+        this.minuten = Integer.parseInt(timeDaten[1]);
+        this.sekunden = Integer.parseInt(timeDaten[0]);
+        if (!korrektDatum(this.sekunden,this.minuten,this.stunden,this.tag,this.monat,this.jahr))
             throw new IllegalArgumentException("Ungültiges Datum");
     }
 
@@ -51,17 +73,19 @@ public class Date implements Comparable<Date>{
      *
      * @param tage die Tage seit dem 1.1.1900; muss >= 0 sein
      */
-    public Date(int tage) {
+    public DateTime(int tage) {
         if (tage < 0)
             throw new IllegalArgumentException("Tage seit dem 1.1.1900 müssen positiv sein: " + tage);
         if (tage > 401767)
             throw new IllegalArgumentException("Tage gehen über das Jahr 3000 hinaus.");
 
-        Date help = new Date(1, 1, 1900);
+        DateTime help = new DateTime(1, 1, 1900);
         help.addiereTage(tage);
         this.jahr = help.jahr;
         this.monat = help.monat;
         this.tag = help.tag;
+
+        //Uhrzeit standartmaessig auf 0
 
     }
 
@@ -72,13 +96,32 @@ public class Date implements Comparable<Date>{
      * @param monat das Monat, 1 - 12
      * @param jahr  das Jahr, 1900 - 3000
      */
-    public Date(@JsonProperty("tag") int tag, @JsonProperty("monat") int monat, @JsonProperty("jahr") int jahr) {
-        if (jahr > 3000 || jahr < 1900)
-            throw new IllegalArgumentException(jahr + " ist ungültig");
-        this.jahr = jahr;
+    public DateTime(@JsonProperty("tag") int tag, @JsonProperty("monat") int monat, @JsonProperty("jahr") int jahr) {
+
+        this.setJahr(jahr);
         this.setMonat(monat);
         this.setTag(tag);
+
+        //Uhrzeit standartmaessig auf 0
+
     }
+
+    public DateTime(@JsonProperty("sekunden") int sekunden,
+                    @JsonProperty("minuten") int minuten,
+                    @JsonProperty("stunden") int stunden,
+                    @JsonProperty("tag") int tag,
+                    @JsonProperty("monat") int monat,
+                    @JsonProperty("jahr") int jahr){
+
+        this.setSekunden(sekunden);
+        this.setMinuten(minuten);
+        this.setStunden(stunden);
+        this.setTag(tag);
+        this.setMonat(monat);
+        this.setJahr(jahr);
+    }
+
+
 
     /**
      * Liefert die zwischen zwei Daten vergangenen Tage.
@@ -88,7 +131,7 @@ public class Date implements Comparable<Date>{
      * @return Tage zwischen <code>d1</code> und <code>d2</code>;
      * positiv wenn <code>d2</code> nach <code>d1</code> liegt, sonst negativ
      */
-    public static int tageZwischen(Date d1, Date d2) {
+    public static int tageZwischen(DateTime d1, DateTime d2) {
         return d2.tageSeit1900() - d1.tageSeit1900();
     }
 
@@ -108,8 +151,11 @@ public class Date implements Comparable<Date>{
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        Date datum = (Date) o;
-        return tag == datum.tag &&
+        DateTime datum = (DateTime) o;
+        return  sekunden == datum.sekunden &&
+                minuten == datum.minuten &&
+                stunden == datum.minuten &&
+                tag == datum.tag &&
                 monat == datum.monat &&
                 jahr == datum.jahr;
     }
@@ -121,33 +167,21 @@ public class Date implements Comparable<Date>{
      */
     @JsonIgnore
     public String getMonatAsString() {
-        switch (this.monat) {
-            case 1:
-                return "Januar";
-            case 2:
-                return "Februar";
-            case 3:
-                return "März";
-            case 4:
-                return "April";
-            case 5:
-                return "Mai";
-            case 6:
-                return "Juni";
-            case 7:
-                return "Juli";
-            case 8:
-                return "August";
-            case 9:
-                return "September";
-            case 10:
-                return "Oktober";
-            case 11:
-                return "November";
-            case 12:
-                return "Dezember";
-        }
-        return "";
+        return switch (this.monat) {
+            case 1 -> "Januar";
+            case 2 -> "Februar";
+            case 3 -> "März";
+            case 4 -> "April";
+            case 5 -> "Mai";
+            case 6 -> "Juni";
+            case 7 -> "Juli";
+            case 8 -> "August";
+            case 9 -> "September";
+            case 10 -> "Oktober";
+            case 11 -> "November";
+            case 12 -> "Dezember";
+            default -> "";
+        };
     }
 
     /**
@@ -241,47 +275,57 @@ public class Date implements Comparable<Date>{
      * @return den Wochentag als String
      */
     public String wochentag() {
-        switch (this.wochentagNummer()) {
-            case 0:
-                return "Montag";
-            case 1:
-                return "Dienstag";
-            case 2:
-                return "Mittwoch";
-            case 3:
-                return "Donnerstag";
-            case 4:
-                return "Freitag";
-            case 5:
-                return "Samstag";
-            case 6:
-                return "Sonntag";
-        }
-        return "";
+        return switch (this.wochentagNummer()) {
+            case 0 -> "Montag";
+            case 1 -> "Dienstag";
+            case 2 -> "Mittwoch";
+            case 3 -> "Donnerstag";
+            case 4 -> "Freitag";
+            case 5 -> "Samstag";
+            case 6 -> "Sonntag";
+            default -> "";
+        };
     }
 
     /**
+     *
      * Vergleicht das <code>this</code>-Datum mit dem übergebenen.
      *
      * @param d das Datum, mit dem verglichen wird
-     * @return eine negative Zahl, wenn d spaeter liegt, positiv, wenn d frueher l i egt und
+     * @return eine negative Zahl, wenn <code>d</code> spaeter liegt, positiv, wenn <code>d</code> frueher liegt und
      * 0 bei gleichem Datum
      */
     @Override
-    public int compareTo(Date d) {
-        return Integer.compare(this.tageSeit1900(), d.tageSeit1900());
+    public int compareTo(DateTime d) {
+
+
+
+        if(Integer.compare(this.tageSeit1900(), d.tageSeit1900()) != 0){
+            return Integer.compare(this.tageSeit1900(), d.tageSeit1900());
+        }
+        else if(Integer.compare(this.stunden,d.stunden) != 0){
+            return Integer.compare(this.stunden,d.stunden);
+        }
+        else if(Integer.compare(this.minuten,d.minuten) != 0){
+            return Integer.compare(this.minuten,d.minuten);
+        }
+        else{
+            return Integer.compare(this.sekunden,d.sekunden);
+        }
+
     }
 
     /**
      * Liefert eine Stringdarstellung i n der Form <code>tt.mm.jjjj</code>
      *
      * @return Stringdarstellung i n der Form <code>tt.mm.jjjj</code>QA QA
-     * @override
+     *
      */
     @Override
     public String toString() {
-        return String.format("%02d.%02d.%04d", this.tag, this.monat, this.jahr);
+        return String.format("%02d-%02d-%04d %02d:%02d:%02d", this.tag, this.monat, this.jahr,this.sekunden,this.minuten,this.stunden);
     }
+
 
     /**
      * Liefert eine Stringdarstellung unterschiedlichen Formats
@@ -365,10 +409,55 @@ public class Date implements Comparable<Date>{
      * Setzt die Instanzvariable <code>jahr</code> auf den übergebenen Wert.
      *
      * @param jahr Wert auf den die Variable <code>jahr</code> gesetzt werden soll.
+     * @throws IllegalArgumentException Falls der Parameter ungültig ist.
      */
     @JsonIgnore
-    public void setJahr(int jahr) {
+    public void setJahr(int jahr) throws IllegalArgumentException{
+        if (jahr > 3000 || jahr < 1900)
+            throw new IllegalArgumentException(jahr + " ist kein gültiges Jahr");
         this.jahr = jahr;
+    }
+
+    /**
+     * Setzt die Instanzvariable <code>sekunden</code> auf den übergebenen Wert.
+     *
+     * @param sekunden Wert auf den die Variable <code>sekunden</code> gesetzt werden soll.
+     * @throws IllegalArgumentException Falls der Parameter ungültig ist.
+     */
+    @JsonIgnore
+    public void setSekunden(int sekunden) throws IllegalArgumentException{
+
+        if(sekunden < 0 || sekunden > 59) {
+            throw new IllegalArgumentException(sekunden + "ist keine gültige Sekundenanzahl");
+        }
+        this.sekunden = sekunden;
+    }
+    /**
+     * Setzt die Instanzvariable <code>minuten</code> auf den übergebenen Wert.
+     *
+     * @param minuten Wert auf den die Variable <code>minuten</code> gesetzt werden soll.
+     * @throws IllegalArgumentException Falls der Parameter ungültig ist.
+     */
+    @JsonIgnore
+    public void setMinuten(int minuten) throws IllegalArgumentException{
+        if(minuten < 0 || minuten > 59) {
+            throw new IllegalArgumentException(minuten + "ist keine gültige Minutenanzahl");
+        }
+        this.minuten = minuten;
+    }
+
+    /**
+     * Setzt die Instanzvariable <code>stunden</code> auf den übergebenen Wert.
+     *
+     * @param stunden Wert auf den die Variable <code>stunden</code> gesetzt werden soll.
+     * @throws IllegalArgumentException Falls der Parameter ungültig ist.
+     */
+    @JsonIgnore
+    public void setStunden(int stunden) throws IllegalArgumentException{
+        if(stunden < 0 || stunden > 23) {
+            throw new IllegalArgumentException(stunden + "ist keine gültige Stundenanzahl");
+        }
+        this.stunden = stunden;
     }
 
     /**
@@ -399,6 +488,36 @@ public class Date implements Comparable<Date>{
     @JsonGetter("tag")
     public int getTag() {
         return this.tag;
+    }
+
+    /**
+     * Gibt den Wert der Instanzvariable <code>sekunden</code> zurück.
+     *
+     * @return Wert der Variable <code>sekunden</code>
+     */
+    @JsonGetter("sekunden")
+    public int getSekunden() {
+        return sekunden;
+    }
+
+    /**
+     * Gibt den Wert der Instanzvariable <code>minuten</code> zurück.
+     *
+     * @return Wert der Variable <code>minuten</code>
+     */
+    @JsonGetter("minuten")
+    public int getMinuten() {
+        return minuten;
+    }
+
+    /**
+     * Gibt den Wert der Instanzvariable <code>stunden</code> zurück.
+     *
+     * @return Wert der Variable <code>stunden</code>
+     */
+    @JsonGetter("stunden")
+    public int getStunden() {
+        return stunden;
     }
 
     /**
@@ -438,23 +557,40 @@ public class Date implements Comparable<Date>{
     /**
      * Überprüft ob die übergebenen Daten korrekt ist.
      *
+     * @param sekunden Sekunden des zu überpüfenden Datums.
+     * @param minuten Minuten des zu überpüfenden Datums.
+     * @param stunden Stunden des zu überpüfenden Datums.
      * @param tag   Tag des zu überpüfenden Datums.
      * @param monat Monat des zu überpüfenden Datums.
      * @param jahr  Jahr des zu überpüfenden Datums.
      * @return true, wenn das Datum korrekt ist, ansonsten falls.
      */
-    public static boolean korrektDatum(int tag, int monat, int jahr) {
+    public static boolean korrektDatum(int sekunden, int minuten, int stunden, int tag, int monat, int jahr) {
         if (jahr < 1900) {
             return false;
         }
 
-        if (monat > 12 || monat < 1) {
+        else if (monat > 12 || monat < 1) {
             return false;
         }
+
         // maximale Tage auf die des jeweiligen Monats setzen
         int maxd = maxDaysInMonth(monat, jahr);
-        return tag <= maxd;
+
+
+        if (tag > maxd || tag < 0) {
+            return false;
+        }
+
+        if(stunden >= 24 || stunden < 0){
+            return false;
+        }
+        if(minuten >= 60 || minuten < 0){
+            return false;
+        }
+        return sekunden < 60 && sekunden >= 0;
     }
+
 
     /**
      * Berechnet die Anzahl der Tage seit dem 1.1.1900.
@@ -470,4 +606,6 @@ public class Date implements Comparable<Date>{
         }
         return t;
     }
+
+
 }

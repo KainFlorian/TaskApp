@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import date.Date;
+import date.DateTime;
 import org.jetbrains.annotations.NotNull;
 import enums.AbgabeOrt;
 import subject.Subject;
@@ -15,7 +15,7 @@ public class Task {
     private final String name;
     private final Subject subject;
     private final AbgabeOrt abgabeOrt;
-    private final Date dueDate;
+    private final DateTime dueDate;
 
     public final int SUBJECT_FIRST = 1;
     public final int DATE_FIRST = 2;
@@ -24,7 +24,7 @@ public class Task {
 
 
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
-                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") Date dueDate) {
+                @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") DateTime dueDate) {
         this.name = name;
         this.subject = subject;
         this.abgabeOrt = abgabeOrt;
@@ -60,7 +60,7 @@ public class Task {
     }
 
     @JsonGetter("dueDate")
-    public Date getDueDate() {
+    public DateTime getDueDate() {
         return dueDate;
     }
 
