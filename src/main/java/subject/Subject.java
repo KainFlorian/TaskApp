@@ -3,9 +3,17 @@ package subject;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import json.JSONHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 
 public class Subject implements Comparable<Subject> {
@@ -62,5 +70,15 @@ public class Subject implements Comparable<Subject> {
     @Override
     public String toString() {
         return this.subjectName + ": " + this.subjectTeacher;
+    }
+
+    public static List<String> fromFile(String fileName) throws IOException{
+        List<Subject> fromFile = JSONHandler.subjectsFromFile(fileName);
+        List<String> subjects = new ArrayList<>();
+        fromFile.stream()
+                .map(Subject::toString)
+                .forEach(subjects::add);
+        subjects.sort(String::compareTo);
+        return subjects;
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import date.DateTime;
+import enums.Files;
 import json.JSONHandler;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 
 public class Commands {
+
     private Commands() {
     }
 
@@ -32,7 +34,7 @@ public class Commands {
 
     static {
         allTasks = new ArrayList<>();
-        loadDataFromFile("src/main/resources/tasks.json");
+        loadDataFromFile(Files.TASKS.toString());
     }
 
     /**

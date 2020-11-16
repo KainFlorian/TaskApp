@@ -1,0 +1,52 @@
+[ {
+  "subjectName" : "POS",
+  "subjectTeacher" : "SCRE"
+}, {
+  "subjectName" : "AM",
+  "subjectTeacher" : "RIEE"
+}, {
+  "subjectName" : "D",
+  "subjectTeacher" : "REIC"
+}, {
+  "subjectName" : "E",
+  "subjectTeacher" : "NEUL"
+}, {
+  "subjectName" : "POS_DOEL",
+  "subjectTeacher" : "DOEL"
+}, {
+  "subjectName" : "POS_REIO",
+  "subjectTeacher" : "REIO"
+}, {
+  "subjectName" : "TINF",
+  "subjectTeacher" : "WEIX"
+}, {
+  "subjectName" : "SYP_CAST",
+  "subjectTeacher" : "CAST"
+}, {
+  "subjectName" : "SYP_SCBI",
+  "subjectTeacher" : "SCBI"
+}, {
+  "subjectName" : "NVS",
+  "subjectTeacher" : "RAAB"
+}, {
+  "subjectName" : "DBI",
+  "subjectTeacher" : "KRON"
+}, {
+  "subjectName" : "GGP_DICH",
+  "subjectTeacher" : "DICH"
+}, {
+  "subjectName" : "GGP_WISS",
+  "subjectTeacher" : "WISS"
+}, {
+  "subjectName" : "BWM",
+  "subjectTeacher" : "BUCH"
+}, {
+  "subjectName" : "RK",
+  "subjectTeacher" : "KRED"
+}, {
+  "subjectName" : "RK",
+  "subjectTeacher" : "KRED"
+}, {
+  "subjectName" : "BESP",
+  "subjectTeacher" : "NEUl"
+} ]

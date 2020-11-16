@@ -85,7 +85,6 @@ public class DateTime implements Comparable<DateTime> {
         this.tag = help.tag;
 
         //Uhrzeit standartmaessig auf 0
-
     }
 
     /**
@@ -95,23 +94,19 @@ public class DateTime implements Comparable<DateTime> {
      * @param monat das Monat, 1 - 12
      * @param jahr  das Jahr, 1900 - 3000
      */
-    public DateTime(@JsonProperty("tag") int tag, @JsonProperty("monat") int monat, @JsonProperty("jahr") int jahr) {
-
-        this.setJahr(jahr);
-        this.setMonat(monat);
-        this.setTag(tag);
-
-        //Uhrzeit standartmaessig auf 0
-
+    public DateTime(int tag, int monat, int jahr) {
+        this(tag, monat, jahr, 0, 0, 0);
     }
 
-    public DateTime(@JsonProperty("sekunden") int sekunden,
-                    @JsonProperty("minuten") int minuten,
-                    @JsonProperty("stunden") int stunden,
-                    @JsonProperty("tag") int tag,
+    public DateTime(@JsonProperty("tag") int tag,
                     @JsonProperty("monat") int monat,
-                    @JsonProperty("jahr") int jahr) {
-        this(tag, monat, jahr);
+                    @JsonProperty("jahr") int jahr,
+                    @JsonProperty("stunden") int stunden,
+                    @JsonProperty("minuten") int minuten,
+                    @JsonProperty("sekunden") int sekunden) {
+        this.setTag(tag);
+        this.setMonat(monat);
+        this.setJahr(jahr);
         this.setSekunden(sekunden);
         this.setMinuten(minuten);
         this.setStunden(stunden);

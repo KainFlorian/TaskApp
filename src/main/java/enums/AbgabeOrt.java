@@ -1,5 +1,7 @@
 package enums;
 
+import java.util.Arrays;
+
 public enum AbgabeOrt {
 
     TEAMS("Teams"),
@@ -10,6 +12,14 @@ public enum AbgabeOrt {
 
     private AbgabeOrt(String ort) {
         this.name = ort;
+    }
+
+    public static String[] toStringArray(){
+        String[] ret = new String[AbgabeOrt.values().length];
+        for(int i = 0; i < ret.length; i++){
+            ret[i] = AbgabeOrt.values()[i].toString();
+        }
+        return ret;
     }
 
     @Override
