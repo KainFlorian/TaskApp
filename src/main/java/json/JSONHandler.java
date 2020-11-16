@@ -91,13 +91,13 @@ public class JSONHandler {
      * @throws IOException
      */
     // TODO: Generisch machen
-    public static List<Task> listFromFile(@NotNull String fileName) throws IOException {
+    public static <T> List<T> listFromFile(@NotNull String fileName) throws IOException {
         StringBuilder builder = new StringBuilder();
         try(Stream<String> stream = Files.lines(Path.of(fileName))){
             stream.forEach(builder::append);
         }
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>() {
+        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<T>>() {
         });
     }
 }
