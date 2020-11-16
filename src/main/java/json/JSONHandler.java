@@ -10,8 +10,11 @@ import task.Task;
 import java.io.*;
 
 import java.nio.Buffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class JSONHandler {
 
@@ -89,15 +92,12 @@ public class JSONHandler {
      */
     // TODO: Generisch machen
     public static List<Task> listFromFile(@NotNull String fileName) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            StringBuilder builder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>() {
-            });
+        StringBuilder builder = new StringBuilder();
+        try(Stream<String> stream = Files.lines(Path.of(fileName))){
+            stream.forEach(builder::append);
         }
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>() {
+        });
     }
 }

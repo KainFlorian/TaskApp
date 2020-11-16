@@ -8,7 +8,9 @@
   "dueDate" : {
     "tag" : 15,
     "monat" : 11,
-    "jahr" : 2020
+    "jahr" : 2020,
+    "hour" : 22,
+    "minute" : 31
   }
 }, {
   "name" : "text",
@@ -20,7 +22,9 @@
   "dueDate" : {
     "tag" : 15,
     "monat" : 11,
-    "jahr" : 2020
+    "jahr" : 2020,
+    "hour" : 22,
+    "minute" : 31
   }
 }, {
   "name" : "cock",
@@ -32,6 +36,8 @@
   "dueDate" : {
     "tag" : 15,
     "monat" : 11,
-    "jahr" : 2020
+    "jahr" : 2020,
+    "hour" : 22,
+    "minute" : 31
   }
 } ]

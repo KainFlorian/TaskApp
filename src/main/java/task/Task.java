@@ -36,6 +36,7 @@ public class Task {
         this.dueDate = dueDate;
     }
 
+    @Deprecated
     public String toJsonLine() {
         ObjectMapper mapper = new ObjectMapper();
 
