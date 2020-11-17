@@ -41,18 +41,22 @@ public class TaskApp extends Application {
 
         ListView<Task> taskListView = new ListView<>();
         taskListView.getItems().addAll(Commands.getAllTasks());
-        pane.addColumn(2, taskListView);
+        pane.add(taskListView,2,0,1,3);
 
         Label descriptionLabel = new Label("Beschreibung:");
         TextArea descriptionField = new TextArea();
         descriptionField.setPromptText("Beschreibung...");
         descriptionField.setPrefHeight(200);
-        pane.addRow(row++, descriptionLabel, descriptionField);
+        pane.add(descriptionLabel, 0, 1);
+        pane.add(descriptionField, 1, 1);
+        row++;
 
         Label subjectLabel = new Label("Fach:");
         ComboBox<String> subjects = new ComboBox<>();
         subjects.getItems().addAll(Subject.fromFile(Files.LEHRER_3A.toString()));
-        pane.addRow(row++, subjectLabel, subjects);
+        pane.add(subjectLabel, 0, 2);
+        pane.add(subjects, 1, 2);
+        row++;
 
         Label abgabeOrtLabel = new Label("Abgabe Ort:");
         ComboBox<AbgabeOrt> abgabeOrte = new ComboBox<>();
