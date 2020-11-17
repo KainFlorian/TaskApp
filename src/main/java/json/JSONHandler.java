@@ -78,7 +78,6 @@ public class JSONHandler {
      */
     public static <T> List<T> listFromJSONSTRING(@NotNull String line, @NotNull Class<Task> tClass) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-
         return objectMapper.readValue(line, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
     }
 

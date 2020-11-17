@@ -9,10 +9,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalDateTimeStringConverter;
 import subject.Subject;
 import task.Task;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.FormatStyle;
 import java.util.Arrays;
+
+import static java.time.format.FormatStyle.MEDIUM;
 
 public class TaskApp extends Application {
     @Override
@@ -40,24 +47,35 @@ public class TaskApp extends Application {
         pane.addRow(row++, subjectLabel, subjects);
 
         Label abgabeOrtLabel = new Label("Abgabe Ort:");
-        ComboBox<String> abgabeOrte = new ComboBox<>();
-        abgabeOrte.getItems().addAll(AbgabeOrt.toStringArray());
+        ComboBox<AbgabeOrt> abgabeOrte = new ComboBox<>();
+        abgabeOrte.getItems().addAll(AbgabeOrt.values());
         pane.addRow(row++, abgabeOrtLabel, abgabeOrte);
 
         Label dueDateLabel = new Label("Abgabe Termin:");
-        TextField dueDateField = new TextField();
-        dueDateField.setPromptText("dd.mm.yyyy hh:mm");
-        pane.addRow(row++, dueDateLabel, dueDateField);
+        DatePicker dueDatePicker = new DatePicker();
+        pane.addRow(row++, dueDateLabel, dueDatePicker);
 
         Button addTask = new Button("Hinzufügen");
         addTask.setOnAction(actionEvent -> {
-//            Task task = new Task(nameField.getText(), descriptionField.getText(),
-//                    abgabeOrte.getValue(), new DateTime(dueDateField.getText()));
+            String[] splittedSubject = subjects.getValue().split(":");
+            if(splittedSubject.length != 2){
+                subjects.setStyle("-fx-focus-color: red");
+                subjects.requestFocus();
+                return;
+            }
+            LocalDate time = dueDatePicker.getValue();
+            System.out.println(time);
+            DateTime dateTime = new DateTime(time.getDayOfMonth(), time.getMonthValue(), time.getYear());
+            Task task = new Task(nameField.getText(), descriptionField.getText(),
+                    new Subject(splittedSubject[0], splittedSubject[1]),
+                    abgabeOrte.getValue(), dateTime);
+            System.out.println(task);
         });
         pane.addRow(row, addTask);
 
         ListView<Task> taskListView = new ListView<>();
         pane.addColumn(2, taskListView);
+
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");

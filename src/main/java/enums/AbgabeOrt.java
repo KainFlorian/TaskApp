@@ -14,14 +14,6 @@ public enum AbgabeOrt {
         this.name = ort;
     }
 
-    public static String[] toStringArray(){
-        String[] ret = new String[AbgabeOrt.values().length];
-        for(int i = 0; i < ret.length; i++){
-            ret[i] = AbgabeOrt.values()[i].toString();
-        }
-        return ret;
-    }
-
     @Override
     public String toString() {
         return this.name;

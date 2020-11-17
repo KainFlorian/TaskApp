@@ -45,7 +45,6 @@ public class Subject implements Comparable<Subject> {
         this.subjectTeacher = subjectLehrer;
     }
 
-
     @Override
     public int compareTo(@NotNull Subject o) {
         if (this.subjectName.compareTo(o.subjectName) > 0)

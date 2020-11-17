@@ -67,6 +67,10 @@ public class DateTime implements Comparable<DateTime> {
             throw new IllegalArgumentException("Ungültiges Datum");
     }
 
+    public DateTime(LocalDateTime time){
+
+    }
+
     /**
      * Erzeugt eine Datumsinstanz, die t Tage nach dem 1.1.1900 liegt.
      *
