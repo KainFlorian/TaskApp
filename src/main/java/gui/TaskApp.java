@@ -138,7 +138,8 @@ public class TaskApp extends Application {
             taskListView.getItems().addAll(Commands.getAllTasks());
         });
 
-        pane.addRow(row, addTask, removeSelected);
+        pane.addRow(row, addTask);
+        pane.add(removeSelected, 2, 3);
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");

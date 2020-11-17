@@ -26,7 +26,7 @@ public class Task {
     @JsonIgnore
     public final int ORT_FIRST = 3;
     @JsonIgnore
-    public final int NAME_FIRST = 3;
+    public final int NAME_FIRST = 4;
 
 
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("description") String description,
