@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import date.DateTime;
 import enums.Files;
+import javafx.collections.ObservableList;
 import json.JSONHandler;
 
 import org.jetbrains.annotations.NotNull;
@@ -162,11 +163,26 @@ public class Commands {
         allTasks.remove(task);
     }
 
+    public static void removeTask(int index){
+        allTasks.remove(index);
+    }
+
+    public static void removeTask(ObservableList<Integer> tasks){
+        for(int i : tasks){
+            removeTask(i);
+        }
+    }
+
     /**
      * Fügt einen Task zur Liste <code>alltasks</code> hinzu.
      * @param task Task welcher hinzugefügt werden soll.
      */
     public static void addTask(@NotNull Task task){
         allTasks.add(task);
+    }
+
+    public static void saveData(@NotNull String fileName) throws IOException {
+        JSONHandler.writeToFile(JSONHandler.listToJSONString(allTasks, true), fileName);
+
     }
 }

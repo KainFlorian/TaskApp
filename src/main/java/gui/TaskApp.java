@@ -15,6 +15,7 @@ import javafx.util.converter.LocalDateTimeStringConverter;
 import subject.Subject;
 import task.Task;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -39,6 +40,7 @@ public class TaskApp extends Application {
         pane.addRow(row++, nameLabel, nameField);
 
         ListView<Task> taskListView = new ListView<>();
+        taskListView.getItems().addAll(Commands.getAllTasks());
         pane.addColumn(2, taskListView);
 
         Label descriptionLabel = new Label("Beschreibung:");
@@ -89,7 +91,6 @@ public class TaskApp extends Application {
                 return;
             }
 
-
             String[] splittedSubject = subjects.getValue().split(":");
             if(splittedSubject.length != 2){
                 subjects.setStyle("-fx-focus-color: red");
@@ -107,6 +108,8 @@ public class TaskApp extends Application {
                         abgabeOrte.getValue(), time);
 
                 Commands.addTask(task);
+                taskListView.getItems().clear();
+                taskListView.getItems().addAll(Commands.getAllTasks());
 
                 nameField.setText("");
                 descriptionField.setText("");
@@ -123,13 +126,32 @@ public class TaskApp extends Application {
                 }
             }
         });
-        pane.addRow(row, addTask);
+
+        Button removeSelected = new Button("Finished");
+        removeSelected.setOnAction(actionEvent -> {
+            Commands.removeTask(taskListView.getSelectionModel().getSelectedIndices());
+            taskListView.getItems().clear();
+            taskListView.getItems().addAll(Commands.getAllTasks());
+        });
+
+        pane.addRow(row, addTask, removeSelected);
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");
         stage.show();
     }
-
+    
+    @Override
+    public void stop(){
+        try {
+            Commands.saveData(Files.TASKS.toString());
+        } catch (IOException e) {
+            Alert err = new Alert(Alert.AlertType.ERROR);
+            err.setTitle("ERROR");
+            err.setContentText("Fehler beim Speichern der Daten");
+        }
+    }
+    
     private static void setError(Node set){
         set.setStyle("-fx-focus-color: red");
         set.requestFocus();

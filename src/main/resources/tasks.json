@@ -1,19 +1,4 @@
 [ {
-  "name" : "adsf",
-  "description" : "",
-  "subject" : {
-    "subjectName" : "AM",
-    "subjectTeacher" : "RIEE"
-  },
-  "abgabeOrt" : "TEAMS",
-  "dueDate" : {
-    "tag" : 17,
-    "monat" : 11,
-    "jahr" : 2020,
-    "stunden" : 18,
-    "minuten" : 56
-  }
-}, {
   "name" : "text",
   "description" : "",
   "subject" : {
@@ -26,7 +11,7 @@
     "monat" : 11,
     "jahr" : 2020,
     "stunden" : 18,
-    "minuten" : 56
+    "minuten" : 59
   }
 }, {
   "name" : "cock",
@@ -41,6 +26,6 @@
     "monat" : 11,
     "jahr" : 2020,
     "stunden" : 18,
-    "minuten" : 56
+    "minuten" : 59
   }
 } ]
