@@ -72,13 +72,13 @@ public class JSONHandler {
      *
      * @param <T>    Generic für die Liste
      * @param line   JSON line die in eine Liste Umgewandelt werden soll
-     * @param tClass Klasse des Listen Typs z.B.: Task.class
      * @return Liste aus dem JSON string <code>line</code> erzeugten Objeckten <code>T</code>
      * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht mit Jackson erstellt werden kann
      */
-    public static <T> List<T> listFromJSONSTRING(@NotNull String line, @NotNull Class<Task> tClass) throws JsonProcessingException {
+    public static List<Task> listFromJSONSTRING(@NotNull String line) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(line, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
+        return objectMapper.readValue(line, new TypeReference<ArrayList<Task>>() {
+        });
     }
 
     /**
@@ -86,19 +86,8 @@ public class JSONHandler {
      *
      * @param fileName Datei aus der gelesen werden soll.
      * @return Liste der Daten
-     * @throws IOException
+     * @throws IOException Wird geworfen wenn das File nicht gefunden wird
      */
-    // TODO: Generisch machen
-    public static List<Task> listFromFile(@NotNull String fileName) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        try(Stream<String> stream = Files.lines(Path.of(fileName))){
-            stream.forEach(builder::append);
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Task>>() {
-        });
-    }
-
     public static List<Subject> subjectsFromFile(@NotNull String fileName) throws IOException{
         StringBuilder builder = new StringBuilder();
         try(Stream<String> stream = Files.lines(Path.of(fileName))) {
