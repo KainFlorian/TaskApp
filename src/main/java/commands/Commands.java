@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import date.DateTime;
+import enums.Files;
+import javafx.collections.ObservableList;
 import json.JSONHandler;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +27,7 @@ import java.util.List;
  */
 
 public class Commands {
+
     private Commands() {
     }
 
@@ -32,7 +35,7 @@ public class Commands {
 
     static {
         allTasks = new ArrayList<>();
-        loadDataFromFile("src/main/resources/tasks.json");
+        loadDataFromFile(Files.TASKS.toString());
     }
 
     /**
@@ -158,5 +161,28 @@ public class Commands {
      */
     public static void removeTask(@NotNull Task task) {
         allTasks.remove(task);
+    }
+
+    public static void removeTask(int index){
+        allTasks.remove(index);
+    }
+
+    public static void removeTask(ObservableList<Integer> tasks){
+        for(int i : tasks){
+            removeTask(i);
+        }
+    }
+
+    /**
+     * Fügt einen Task zur Liste <code>alltasks</code> hinzu.
+     * @param task Task welcher hinzugefügt werden soll.
+     */
+    public static void addTask(@NotNull Task task){
+        allTasks.add(task);
+    }
+
+    public static void saveData(@NotNull String fileName) throws IOException {
+        JSONHandler.writeToFile(JSONHandler.listToJSONString(allTasks, true), fileName);
+
     }
 }

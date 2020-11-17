@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 
 public enum Files {
 
-    TASKS("src/main/resources/tasks.json");
+    TASKS("src/main/resources/tasks.json"),
+    LEHRER_3A("src/main/resources/3ALehrer.json");
 
 
     private String filepath;

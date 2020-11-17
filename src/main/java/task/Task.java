@@ -14,6 +14,7 @@ import java.util.Objects;
 
 public class Task {
     private final String name;
+    private final String description;
     private final Subject subject;
     private final AbgabeOrt abgabeOrt;
     private final DateTime dueDate;
@@ -28,9 +29,11 @@ public class Task {
     public final int NAME_FIRST = 3;
 
 
-    public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("subject") Subject subject,
+    public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("description") String description,
+                @NotNull @JsonProperty("subject") Subject subject,
                 @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") DateTime dueDate) {
         this.name = name;
+        this.description = description;
         this.subject = subject;
         this.abgabeOrt = abgabeOrt;
         this.dueDate = dueDate;
@@ -66,6 +69,11 @@ public class Task {
     @JsonGetter("dueDate")
     public DateTime getDueDate() {
         return dueDate;
+    }
+
+    @JsonGetter("description")
+    public String getDescription() {
+        return description;
     }
 
     @Override

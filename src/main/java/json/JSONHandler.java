@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
+import subject.Subject;
 import task.Task;
-
 
 import java.io.*;
 
-import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -76,10 +75,9 @@ public class JSONHandler {
      * @return Liste aus dem JSON string <code>line</code> erzeugten Objeckten <code>T</code>
      * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht mit Jackson erstellt werden kann
      */
-    public static <T> List<T> listFromJSONSTRING(@NotNull String line) throws JsonProcessingException {
+    public static List<Task> listFromJSONSTRING(@NotNull String line) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-
-        return objectMapper.readValue(line, new TypeReference<ArrayList<T>>() {
+        return objectMapper.readValue(line, new TypeReference<ArrayList<Task>>() {
         });
     }
 
@@ -90,14 +88,13 @@ public class JSONHandler {
      * @return Liste der Daten
      * @throws IOException Wird geworfen wenn das File nicht gefunden wird
      */
-
-    public static <T> List<T> listFromFile(@NotNull String fileName) throws IOException {
+    public static List<Subject> subjectsFromFile(@NotNull String fileName) throws IOException{
         StringBuilder builder = new StringBuilder();
-        try(Stream<String> stream = Files.lines(Path.of(fileName))){
+        try(Stream<String> stream = Files.lines(Path.of(fileName))) {
             stream.forEach(builder::append);
         }
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<T>>() {
+        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Subject>>() {
         });
     }
 }
