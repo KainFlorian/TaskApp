@@ -81,6 +81,14 @@ public class JSONHandler {
         });
     }
 
+    public static List<Task> listFromFile(@NotNull String fileName) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        try(Stream<String> stream = Files.lines(Path.of(fileName))){
+            stream.forEach(builder::append);
+        }
+        return listFromJSONSTRING(builder.toString());
+    }
+
     /**
      * Liest die Json-Daten aus dem übergebenen File und liefert diese in einer List wieder zurück.
      *
