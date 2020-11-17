@@ -27,8 +27,8 @@ public class DateTime implements Comparable<DateTime> {
     public DateTime() {
         LocalDateTime today = LocalDateTime.now();
 
+        this.stunden = today.getHour();
         this.minuten = today.getMinute();
-
         this.tag = today.getDayOfMonth();
         this.monat = today.getMonthValue();
         this.jahr = today.getYear();

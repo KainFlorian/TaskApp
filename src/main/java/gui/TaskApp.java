@@ -1,5 +1,6 @@
 package gui;
 
+import commands.Commands;
 import date.DateTime;
 import enums.AbgabeOrt;
 import enums.Files;
@@ -64,7 +65,7 @@ public class TaskApp extends Application {
 
         Button addTask = new Button("Hinzufügen");
         addTask.setOnAction(actionEvent -> {
-            pane.getChildren()
+            pane.getChildren() // alle Nodes wieder normal formatieren
                     .forEach(node -> node.setStyle("-fx-focus-color: #0093ff"));
 
             if(dueDatePicker.getValue().toString() == null){
@@ -100,10 +101,12 @@ public class TaskApp extends Application {
                     throw new IllegalArgumentException("date");
                 }
                 DateTime time = DateTime.ofGUIString(dueDatePicker.getValue().toString() + " " + dueTimeField.getText());
-                Task task = new Task(nameField.getText(), descriptionField.getText() == null ? "" : descriptionField.getText(),
+                Task task = new Task(nameField.getText(),
+                        descriptionField.getText() == null ? "" : descriptionField.getText(),
                         new Subject(splittedSubject[0], splittedSubject[1]),
                         abgabeOrte.getValue(), time);
-                System.out.println(task);
+
+                Commands.addTask(task);
 
                 nameField.setText("");
                 descriptionField.setText("");

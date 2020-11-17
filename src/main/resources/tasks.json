@@ -1,49 +1,46 @@
 [ {
   "name" : "adsf",
-  "description" : "hü nr...",
+  "description" : "",
   "subject" : {
     "subjectName" : "AM",
     "subjectTeacher" : "RIEE"
   },
   "abgabeOrt" : "TEAMS",
   "dueDate" : {
-    "sekunden" : 27,
-    "minuten" : 13,
-    "stunden" : 18,
-    "tag" : 16,
+    "tag" : 17,
     "monat" : 11,
-    "jahr" : 2020
+    "jahr" : 2020,
+    "stunden" : 18,
+    "minuten" : 54
   }
 }, {
   "name" : "text",
-  "description" : "decode",
+  "description" : "",
   "subject" : {
     "subjectName" : "POS",
     "subjectTeacher" : "SCRE"
   },
   "abgabeOrt" : "MOODLE",
   "dueDate" : {
-    "sekunden" : 27,
-    "minuten" : 13,
-    "stunden" : 18,
-    "tag" : 16,
+    "tag" : 17,
     "monat" : 11,
-    "jahr" : 2020
+    "jahr" : 2020,
+    "stunden" : 18,
+    "minuten" : 54
   }
 }, {
   "name" : "cock",
-  "description" : "skedjular",
+  "description" : "",
   "subject" : {
     "subjectName" : "TINF",
     "subjectTeacher" : "WEIX"
   },
   "abgabeOrt" : "EMAIL",
   "dueDate" : {
-    "sekunden" : 27,
-    "minuten" : 13,
-    "stunden" : 18,
-    "tag" : 16,
+    "tag" : 17,
     "monat" : 11,
-    "jahr" : 2020
+    "jahr" : 2020,
+    "stunden" : 18,
+    "minuten" : 54
   }
 } ]

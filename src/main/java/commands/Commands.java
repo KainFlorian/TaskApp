@@ -161,4 +161,12 @@ public class Commands {
     public static void removeTask(@NotNull Task task) {
         allTasks.remove(task);
     }
+
+    /**
+     * Fügt einen Task zur Liste <code>alltasks</code> hinzu.
+     * @param task Task welcher hinzugefügt werden soll.
+     */
+    public static void addTask(@NotNull Task task){
+        allTasks.add(task);
+    }
 }
