@@ -5,6 +5,7 @@ import enums.AbgabeOrt;
 import enums.Files;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.FormatStyle;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static java.time.format.FormatStyle.MEDIUM;
 
@@ -34,6 +36,9 @@ public class TaskApp extends Application {
         TextField nameField = new TextField();
         nameField.setPromptText("Titel");
         pane.addRow(row++, nameLabel, nameField);
+
+        ListView<Task> taskListView = new ListView<>();
+        pane.addColumn(2, taskListView);
 
         Label descriptionLabel = new Label("Beschreibung:");
         TextArea descriptionField = new TextArea();
@@ -53,32 +58,77 @@ public class TaskApp extends Application {
 
         Label dueDateLabel = new Label("Abgabe Termin:");
         DatePicker dueDatePicker = new DatePicker();
-        pane.addRow(row++, dueDateLabel, dueDatePicker);
+        TextField dueTimeField = new TextField();
+        dueTimeField.setPromptText("Uhrzeit");
+        pane.addRow(row++, dueDateLabel, dueDatePicker, dueTimeField);
 
         Button addTask = new Button("Hinzufügen");
         addTask.setOnAction(actionEvent -> {
+            pane.getChildren()
+                    .forEach(node -> node.setStyle("-fx-focus-color: #0093ff"));
+
+            if(dueDatePicker.getValue().toString() == null){
+                setError(dueDatePicker);
+                return;
+            }
+            if(dueTimeField.getText() == null || dueTimeField.getText().isEmpty()){
+                setError(dueTimeField);
+                return;
+            }
+            if(nameField.getText() == null || nameField.getText().isEmpty()){
+                setError(nameField);
+                return;
+            }
+            if(subjects.getValue() == null || subjects.getValue().isEmpty()){
+                setError(subjects);
+                return;
+            }
+            if(abgabeOrte.getValue() == null || subjects.getValue().isEmpty()){
+                setError(abgabeOrte);
+                return;
+            }
+
+
             String[] splittedSubject = subjects.getValue().split(":");
             if(splittedSubject.length != 2){
                 subjects.setStyle("-fx-focus-color: red");
                 subjects.requestFocus();
                 return;
             }
-            LocalDate time = dueDatePicker.getValue();
-            System.out.println(time);
-            DateTime dateTime = new DateTime(time.getDayOfMonth(), time.getMonthValue(), time.getYear());
-            Task task = new Task(nameField.getText(), descriptionField.getText(),
-                    new Subject(splittedSubject[0], splittedSubject[1]),
-                    abgabeOrte.getValue(), dateTime);
-            System.out.println(task);
+            try {
+                if(!dueDatePicker.getValue().toString().matches("\\d{4}[-]\\d{2}[-]\\d{2}")){
+                    throw new IllegalArgumentException("date");
+                }
+                DateTime time = DateTime.ofGUIString(dueDatePicker.getValue().toString() + " " + dueTimeField.getText());
+                Task task = new Task(nameField.getText(), descriptionField.getText() == null ? "" : descriptionField.getText(),
+                        new Subject(splittedSubject[0], splittedSubject[1]),
+                        abgabeOrte.getValue(), time);
+                System.out.println(task);
+
+                nameField.setText("");
+                descriptionField.setText("");
+                subjects.setValue("");
+                dueTimeField.setText("");
+            } catch (IllegalArgumentException e){
+                if(e.getMessage().contains("date")){
+                    setError(dueDatePicker);
+                } else if(e.getMessage().contains("time")){
+                    setError(dueTimeField);
+                } else {
+                    setError(dueDatePicker);
+                    setError(dueTimeField);
+                }
+            }
         });
         pane.addRow(row, addTask);
-
-        ListView<Task> taskListView = new ListView<>();
-        pane.addColumn(2, taskListView);
-
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");
         stage.show();
+    }
+
+    private static void setError(Node set){
+        set.setStyle("-fx-focus-color: red");
+        set.requestFocus();
     }
 }

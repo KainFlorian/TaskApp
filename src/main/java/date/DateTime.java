@@ -14,7 +14,6 @@ public class DateTime implements Comparable<DateTime> {
     public final static int FORMAT_LONG = 2;
     public final static int FORMAT_US = 3;
 
-    private int sekunden = 0;
     private int minuten = 0;
     private int stunden = 0;
 
@@ -28,9 +27,7 @@ public class DateTime implements Comparable<DateTime> {
     public DateTime() {
         LocalDateTime today = LocalDateTime.now();
 
-        this.sekunden = today.getSecond();
         this.minuten = today.getMinute();
-        this.stunden = today.getHour();
 
         this.tag = today.getDayOfMonth();
         this.monat = today.getMonthValue();
@@ -62,13 +59,36 @@ public class DateTime implements Comparable<DateTime> {
 
         this.stunden = Integer.parseInt(timeDaten[2]);
         this.minuten = Integer.parseInt(timeDaten[1]);
-        this.sekunden = Integer.parseInt(timeDaten[0]);
-        if (!korrektDatum(this.sekunden, this.minuten, this.stunden, this.tag, this.monat, this.jahr))
+        if (!korrektDatum(this.minuten, this.stunden, this.tag, this.monat, this.jahr))
             throw new IllegalArgumentException("Ungültiges Datum");
     }
 
-    public DateTime(LocalDateTime time){
+    public static DateTime ofGUIString(String textFromGui){
+        String[] splitted = textFromGui.split("\\s+");
+        if(splitted.length != 2){
+            throw new IllegalArgumentException();
+        }
 
+        String[] splittedDate = splitted[0].split("-");
+        if(splittedDate.length != 3){
+            throw new IllegalArgumentException("date");
+        }
+
+        String[] splittedTime = splitted[1].split(":");
+        if(splittedTime.length != 2){
+            throw new IllegalArgumentException("time");
+        }
+
+        try{
+            return new DateTime(Integer.parseInt(splittedDate[2]),
+                    Integer.parseInt(splittedDate[1]),
+                    Integer.parseInt(splittedDate[0]),
+                    Integer.parseInt(splittedTime[0]),
+                    Integer.parseInt(splittedTime[1])
+            );
+        } catch(NumberFormatException e){
+            throw new IllegalArgumentException("number");
+        }
     }
 
     /**
@@ -99,19 +119,17 @@ public class DateTime implements Comparable<DateTime> {
      * @param jahr  das Jahr, 1900 - 3000
      */
     public DateTime(int tag, int monat, int jahr) {
-        this(tag, monat, jahr, 0, 0, 0);
+        this(tag, monat, jahr, 0, 0);
     }
 
     public DateTime(@JsonProperty("tag") int tag,
                     @JsonProperty("monat") int monat,
                     @JsonProperty("jahr") int jahr,
                     @JsonProperty("stunden") int stunden,
-                    @JsonProperty("minuten") int minuten,
-                    @JsonProperty("sekunden") int sekunden) {
+                    @JsonProperty("minuten") int minuten) {
         this.setTag(tag);
         this.setMonat(monat);
         this.setJahr(jahr);
-        this.setSekunden(sekunden);
         this.setMinuten(minuten);
         this.setStunden(stunden);
     }
@@ -146,8 +164,7 @@ public class DateTime implements Comparable<DateTime> {
         if (o == null || getClass() != o.getClass())
             return false;
         DateTime datum = (DateTime) o;
-        return sekunden == datum.sekunden &&
-                minuten == datum.minuten &&
+        return  minuten == datum.minuten &&
                 stunden == datum.minuten &&
                 tag == datum.tag &&
                 monat == datum.monat &&
@@ -281,10 +298,8 @@ public class DateTime implements Comparable<DateTime> {
             return Integer.compare(this.tageSeit1900(), d.tageSeit1900());
         } else if (this.stunden != d.stunden) {
             return Integer.compare(this.stunden, d.stunden);
-        } else if (this.minuten != d.minuten) {
-            return Integer.compare(this.minuten, d.minuten);
         } else {
-            return Integer.compare(this.sekunden, d.sekunden);
+            return Integer.compare(this.minuten, d.minuten);
         }
     }
 
@@ -295,7 +310,7 @@ public class DateTime implements Comparable<DateTime> {
      */
     @Override
     public String toString() {
-        return String.format("%02d-%02d-%04d %02d:%02d:%02d", this.tag, this.monat, this.jahr, this.sekunden, this.minuten, this.stunden);
+        return String.format("%02d-%02d-%04d %02d:%02d", this.tag, this.monat, this.jahr, this.stunden, this.minuten);
     }
 
 
@@ -391,21 +406,6 @@ public class DateTime implements Comparable<DateTime> {
     }
 
     /**
-     * Setzt die Instanzvariable <code>sekunden</code> auf den übergebenen Wert.
-     *
-     * @param sekunden Wert auf den die Variable <code>sekunden</code> gesetzt werden soll.
-     * @throws IllegalArgumentException Falls der Parameter ungültig ist.
-     */
-    @JsonIgnore
-    public void setSekunden(int sekunden) throws IllegalArgumentException {
-
-        if (sekunden < 0 || sekunden > 59) {
-            throw new IllegalArgumentException(sekunden + "ist keine gültige Sekundenanzahl");
-        }
-        this.sekunden = sekunden;
-    }
-
-    /**
      * Setzt die Instanzvariable <code>minuten</code> auf den übergebenen Wert.
      *
      * @param minuten Wert auf den die Variable <code>minuten</code> gesetzt werden soll.
@@ -461,16 +461,6 @@ public class DateTime implements Comparable<DateTime> {
     @JsonGetter("tag")
     public int getTag() {
         return this.tag;
-    }
-
-    /**
-     * Gibt den Wert der Instanzvariable <code>sekunden</code> zurück.
-     *
-     * @return Wert der Variable <code>sekunden</code>
-     */
-    @JsonGetter("sekunden")
-    public int getSekunden() {
-        return sekunden;
     }
 
     /**
@@ -530,7 +520,6 @@ public class DateTime implements Comparable<DateTime> {
     /**
      * Überprüft ob die übergebenen Daten korrekt ist.
      *
-     * @param sekunden Sekunden des zu überpüfenden Datums.
      * @param minuten  Minuten des zu überpüfenden Datums.
      * @param stunden  Stunden des zu überpüfenden Datums.
      * @param tag      Tag des zu überpüfenden Datums.
@@ -538,7 +527,7 @@ public class DateTime implements Comparable<DateTime> {
      * @param jahr     Jahr des zu überpüfenden Datums.
      * @return true, wenn das Datum korrekt ist, ansonsten falls.
      */
-    public static boolean korrektDatum(int sekunden, int minuten, int stunden, int tag, int monat, int jahr) {
+    public static boolean korrektDatum(int minuten, int stunden, int tag, int monat, int jahr) {
         if (jahr < 1900) {
             return false;
         } else if (monat > 12 || monat < 1) {
@@ -556,10 +545,7 @@ public class DateTime implements Comparable<DateTime> {
         if (stunden >= 24 || stunden < 0) {
             return false;
         }
-        if (minuten >= 60 || minuten < 0) {
-            return false;
-        }
-        return sekunden < 60 && sekunden >= 0;
+        return minuten < 60 && minuten >= 1;
     }
 
 
