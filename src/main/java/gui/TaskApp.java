@@ -30,6 +30,7 @@ public class TaskApp extends Application {
     public void start(Stage stage) throws Exception {
         int row = 0; // wenn man etwas ändern möchte muss man nur die Reihenfolge ändern und nicht dauernd die indices ändern
         GridPane pane = new GridPane();
+        pane.setGridLinesVisible(true);
         pane.setVgap(10);
         pane.setHgap(20);
         pane.setPadding(new Insets(20));
@@ -138,8 +139,33 @@ public class TaskApp extends Application {
             taskListView.getItems().addAll(Commands.getAllTasks());
         });
 
+        Button showDetails = new Button("Details");
+        showDetails.setOnAction(actionEvent -> {
+            Task selectedTask = taskListView.getSelectionModel().getSelectedItem();
+
+            GridPane detailPane = new GridPane();
+            detailPane.setVgap(10);
+            detailPane.setHgap(20);
+            detailPane.setPadding(new Insets(20));
+
+            int rowIndex = 0;
+
+            Label detailNameLabel = new Label("Titel:");
+            TextField detailNameField = new TextField(selectedTask.getName());
+            detailNameField.setPromptText("Titel");
+            detailPane.addRow(rowIndex++, detailNameLabel, detailNameField);
+
+            // TODO: restliche details hinzufügen
+
+            Stage detailStage = new Stage();
+            detailStage.setTitle("Details");
+            detailStage.setScene(new Scene(detailPane));
+            detailStage.show();
+        });
+
         pane.addRow(row, addTask);
         pane.add(removeSelected, 2, 3);
+        pane.add(showDetails, 2, 4);
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");
