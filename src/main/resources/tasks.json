@@ -28,4 +28,19 @@
     "stunden" : 18,
     "minuten" : 59
   }
+}, {
+  "name" : "11. HÜ",
+  "description" : "Aus dem Buch die Nummern: 2.4, 2.7 und 2.9. Abgabe wie immer hier.\n",
+  "subject" : {
+    "subjectName" : "AM",
+    "subjectTeacher" : " RIEE"
+  },
+  "abgabeOrt" : "TEAMS",
+  "dueDate" : {
+    "tag" : 23,
+    "monat" : 11,
+    "jahr" : 2020,
+    "stunden" : 0,
+    "minuten" : 0
+  }
 } ]

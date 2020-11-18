@@ -30,7 +30,7 @@ public class TaskApp extends Application {
     public void start(Stage stage) throws Exception {
         int row = 0; // wenn man etwas ändern möchte muss man nur die Reihenfolge ändern und nicht dauernd die indices ändern
         GridPane pane = new GridPane();
-        pane.setGridLinesVisible(true);
+//        pane.setGridLinesVisible(true);
         pane.setVgap(10);
         pane.setHgap(20);
         pane.setPadding(new Insets(20));
@@ -42,7 +42,7 @@ public class TaskApp extends Application {
 
         ListView<Task> taskListView = new ListView<>();
         taskListView.getItems().addAll(Commands.getAllTasks());
-        pane.add(taskListView,2,0,1,3);
+        pane.add(taskListView,2,0,2,3);
 
         Label descriptionLabel = new Label("Beschreibung:");
         TextArea descriptionField = new TextArea();
@@ -150,12 +150,21 @@ public class TaskApp extends Application {
 
             int rowIndex = 0;
 
-            Label detailNameLabel = new Label("Titel:");
-            TextField detailNameField = new TextField(selectedTask.getName());
-            detailNameField.setPromptText("Titel");
-            detailPane.addRow(rowIndex++, detailNameLabel, detailNameField);
+            Label detailNameLabel = new Label("Titel: " + selectedTask.getName());
+            detailPane.addRow(rowIndex++, detailNameLabel);
 
-            // TODO: restliche details hinzufügen
+            Label detailDescriptionLabel = new Label("Beschreibung: ");
+            Label detailDescription = new Label(selectedTask.getDescription());
+            detailPane.addRow(rowIndex++, detailDescriptionLabel, detailDescription);
+
+            Label detailSubject = new Label("Fach: " + selectedTask.getSubject());
+            detailPane.addRow(rowIndex++, detailSubject);
+
+            Label detailAbgabeOrt = new Label("Abgabe Ort: " + selectedTask.getAbgabeOrt());
+            detailPane.addRow(rowIndex++, detailAbgabeOrt);
+
+            Label detailDueDate = new Label(selectedTask.getDueDate().toString());
+            detailPane.addRow(rowIndex, detailDueDate);
 
             Stage detailStage = new Stage();
             detailStage.setTitle("Details");
@@ -165,7 +174,7 @@ public class TaskApp extends Application {
 
         pane.addRow(row, addTask);
         pane.add(removeSelected, 2, 3);
-        pane.add(showDetails, 2, 4);
+        pane.add(showDetails, 3, 3);
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");
