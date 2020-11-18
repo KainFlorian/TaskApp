@@ -72,7 +72,7 @@ public class Subject implements Comparable<Subject> {
     }
 
     public static List<String> fromFile(String fileName) throws IOException{
-        List<Subject> fromFile = JSONHandler.subjectsFromFile(fileName);
+        List<Subject> fromFile = JSONHandler.listFromFile(fileName,Subject.class);
         List<String> subjects = new ArrayList<>();
         fromFile.stream()
                 .map(Subject::toString)
