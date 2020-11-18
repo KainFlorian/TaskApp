@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 public class DateTime implements Comparable<DateTime> {
 
@@ -69,10 +70,11 @@ public class DateTime implements Comparable<DateTime> {
             throw new IllegalArgumentException();
         }
 
-        String[] splittedDate = splitted[0].split("-");
+        String[] splittedDate = splitted[0].split("\\.");
         if(splittedDate.length != 3){
             throw new IllegalArgumentException("date");
         }
+        System.out.println(Arrays.toString(splittedDate));
 
         String[] splittedTime = splitted[1].split(":");
         if(splittedTime.length != 2){
@@ -80,9 +82,9 @@ public class DateTime implements Comparable<DateTime> {
         }
 
         try{
-            return new DateTime(Integer.parseInt(splittedDate[2]),
+            return new DateTime(Integer.parseInt(splittedDate[0]),
                     Integer.parseInt(splittedDate[1]),
-                    Integer.parseInt(splittedDate[0]),
+                    Integer.parseInt(splittedDate[2]),
                     Integer.parseInt(splittedTime[0]),
                     Integer.parseInt(splittedTime[1])
             );
@@ -310,7 +312,7 @@ public class DateTime implements Comparable<DateTime> {
      */
     @Override
     public String toString() {
-        return String.format("%02d-%02d-%04d %02d:%02d", this.tag, this.monat, this.jahr, this.stunden, this.minuten);
+        return String.format("%02d.%02d.%04d %02d:%02d", this.tag, this.monat, this.jahr, this.stunden, this.minuten);
     }
 
 

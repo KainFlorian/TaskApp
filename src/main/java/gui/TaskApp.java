@@ -75,7 +75,7 @@ public class TaskApp extends Application {
             pane.getChildren() // alle Nodes wieder normal formatieren
                     .forEach(node -> node.setStyle("-fx-focus-color: #0093ff"));
 
-            if(dueDatePicker.getValue().toString() == null){
+            if(dueDatePicker.getEditor().getText() == null){
                 setError(dueDatePicker);
                 return;
             }
@@ -103,10 +103,11 @@ public class TaskApp extends Application {
                 return;
             }
             try {
-                if(!dueDatePicker.getValue().toString().matches("\\d{4}[-]\\d{2}[-]\\d{2}")){
+                if(!dueDatePicker.getEditor().getText().matches("\\d{2}[.]\\d{2}[.]\\d{4}")){
                     throw new IllegalArgumentException("date");
                 }
-                DateTime time = DateTime.ofGUIString(dueDatePicker.getValue().toString() + " " + dueTimeField.getText());
+                System.out.println(dueDatePicker.getAccessibleText());
+                DateTime time = DateTime.ofGUIString(dueDatePicker.getEditor().getText() + " " + dueTimeField.getText());
                 Task task = new Task(nameField.getText(),
                         descriptionField.getText() == null ? "" : descriptionField.getText(),
                         new Subject(splittedSubject[0], splittedSubject[1]),
@@ -120,6 +121,7 @@ public class TaskApp extends Application {
                 descriptionField.setText("");
                 subjects.setValue("");
                 dueTimeField.setText("");
+                dueDatePicker.getEditor().setText("");
             } catch (IllegalArgumentException e){
                 if(e.getMessage().contains("date")){
                     setError(dueDatePicker);
