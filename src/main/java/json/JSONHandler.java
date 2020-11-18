@@ -70,39 +70,32 @@ public class JSONHandler {
     /**
      * Generiert ein List Object mit der angegebenen JSON line
      *
-     * @param <T>    Generic für die Liste
      * @param line   JSON line die in eine Liste Umgewandelt werden soll
+     * @param tClass Klasse von dem dem Generic muss übergeben werden da man die Klasse nicht in der Funktion ermittlen kann.
+     * @param <T>    Generic für die Liste
      * @return Liste aus dem JSON string <code>line</code> erzeugten Objeckten <code>T</code>
      * @throws JsonProcessingException wird geworfen wenn <code>T</code> nicht mit Jackson erstellt werden kann
      */
-    public static List<Task> listFromJSONSTRING(@NotNull String line) throws JsonProcessingException {
+    public static <T> List<T> listFromJSONSTRING(@NotNull String line,Class<T> tClass) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(line, new TypeReference<ArrayList<Task>>() {
-        });
+        return objectMapper.readValue(line,objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
     }
 
-    public static List<Task> listFromFile(@NotNull String fileName) throws IOException {
+    /**
+     *
+     * @param fileName Filename des umzuwandelnen Files
+     * @param tClass Klasse von dem dem Generic muss übergeben werden da man die Klasse nicht in der Funktion ermittlen kann.
+     * @param <T> Generic für die Liste
+     * @return Liste aus dem File erzeugten Objeckten <code>T</code>
+     * @throws IOException Falls das  File nicht Gefunden wird oder das Json nicht processed werden kann
+     */
+    public static <T> List<T> listFromFile(@NotNull String fileName,Class<T> tClass) throws IOException {
         StringBuilder builder = new StringBuilder();
         try(Stream<String> stream = Files.lines(Path.of(fileName))){
             stream.forEach(builder::append);
         }
-        return listFromJSONSTRING(builder.toString());
+        return listFromJSONSTRING(builder.toString(),tClass);
     }
 
-    /**
-     * Liest die Json-Daten aus dem übergebenen File und liefert diese in einer List wieder zurück.
-     *
-     * @param fileName Datei aus der gelesen werden soll.
-     * @return Liste der Daten
-     * @throws IOException Wird geworfen wenn das File nicht gefunden wird
-     */
-    public static List<Subject> subjectsFromFile(@NotNull String fileName) throws IOException{
-        StringBuilder builder = new StringBuilder();
-        try(Stream<String> stream = Files.lines(Path.of(fileName))) {
-            stream.forEach(builder::append);
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(builder.toString(), new TypeReference<ArrayList<Subject>>() {
-        });
-    }
+
 }

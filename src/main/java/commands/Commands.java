@@ -45,7 +45,7 @@ public class Commands {
      */
     private static void loadDataFromFile(@NotNull String fileName) {
         try {
-            allTasks = JSONHandler.listFromFile(fileName);
+            allTasks = JSONHandler.listFromFile(fileName,Task.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
