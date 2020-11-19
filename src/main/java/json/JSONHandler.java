@@ -1,5 +1,6 @@
 package json;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,9 +50,12 @@ public class JSONHandler {
      * @throws IOException Wird geworfen falls das File nicht gefunden wird
      */
     public static void writeToFile(@NotNull String text, @NotNull String file) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(text);
+        ClassLoader classLoader = JSONHandler.class.getClassLoader();
+        try (OutputStream writer = new FileOutputStream(new File(classLoader.getResource(file).getFile()))) {
+            writer.write(text.getBytes());
         }
+
+
     }
 
     /**
@@ -91,8 +95,14 @@ public class JSONHandler {
      */
     public static <T> List<T> listFromFile(@NotNull String fileName,Class<T> tClass) throws IOException {
         StringBuilder builder = new StringBuilder();
-        try(Stream<String> stream = Files.lines(Path.of(fileName))){
-            stream.forEach(builder::append);
+
+        try(InputStream is = JSONHandler.class.getClassLoader().getResourceAsStream(fileName)){
+            InputStreamReader isReader = new InputStreamReader(is);
+            BufferedReader reader = new BufferedReader(isReader);
+            String str;
+            while((str = reader.readLine())!= null){
+                builder.append(str);
+            }
         }
         return listFromJSONSTRING(builder.toString(),tClass);
     }

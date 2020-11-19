@@ -1,8 +1,4 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import commands.Commands;
-import date.Date;
+
 import date.DateTime;
 import enums.AbgabeOrt;
 import json.JSONHandler;
@@ -13,10 +9,18 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.prefs.Preferences;
+
+
 public class Main {
     public static void main(String[] args) {
 //        System.out.println(Commands.getAllTasks().toString());
-        writeTestData();
+//        writeTestData();
+        Preferences userNode = Preferences.userNodeForPackage(Main.class);
+
+        String myPreference = userNode.get("My Preference","adsf");
+        System.out.println(myPreference);
+
     }
 
     private static void writeTestData() {
