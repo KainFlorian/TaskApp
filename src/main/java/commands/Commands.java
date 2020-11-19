@@ -1,22 +1,16 @@
 package commands;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import date.DateTime;
 import enums.Files;
+import handler.FileHandler;
 import javafx.collections.ObservableList;
-import json.JSONHandler;
+import handler.JSONHandler;
 
 import org.jetbrains.annotations.NotNull;
 import enums.AbgabeOrt;
 import subject.Subject;
 import task.Task;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -182,7 +176,7 @@ public class Commands {
     }
 
     public static void saveData(@NotNull String fileName) throws IOException {
-        JSONHandler.writeToFile(JSONHandler.listToJSONString(allTasks, true), fileName);
+        FileHandler.writeToFile(JSONHandler.listToJSONString(allTasks, true), fileName);
 
     }
 }
