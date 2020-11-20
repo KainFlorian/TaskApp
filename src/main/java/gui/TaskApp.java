@@ -10,21 +10,58 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+
 import subject.Subject;
 import task.Task;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public class TaskApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        int row = 0; // wenn man etwas ändern möchte muss man nur die Reihenfolge ändern und nicht dauernd die indices ändern
+        int row = 1; // wenn man etwas ändern möchte muss man nur die Reihenfolge ändern und nicht dauernd die indices ändern
         GridPane pane = new GridPane();
 //        pane.setGridLinesVisible(true);
         pane.setVgap(10);
         pane.setHgap(20);
-        pane.setPadding(new Insets(20));
+        pane.setPadding(new Insets(0, 20, 20, 20));
+
+        // Menu
+        MenuBar menu = new MenuBar();
+
+        Menu settings = new Menu("Settings");
+
+        MenuItem readSubjects = new MenuItem("select subject data");
+        readSubjects.setOnAction(actionEvent -> {
+            Optional<File> subjectFile = getFileFromChooser(stage, "Open Subject File");
+            if(subjectFile.isPresent()){
+                // TODO: value zuweisen
+            }
+        });
+
+        MenuItem openTaskData = new MenuItem("Open Task Data");
+        openTaskData.setOnAction(actionEvent -> {
+            Optional<File> taskFile = getFileFromChooser(stage, "Open Task File");
+            if(taskFile.isPresent()){
+                // TODO: value zuweisen
+            }
+        });
+
+        // TODO: add a save task directory
+//        MenuItem setTaskSaveDirectory = new MenuItem("Set Task Save Directory");
+//        setTaskSaveDirectory.setOnAction(actionEvent -> {
+//
+//        });
+
+        settings.getItems().addAll(readSubjects, openTaskData);
+        menu.getMenus().addAll(settings);
+        pane.add(menu, 0,0, 4, 1);
+        // -----------------------
 
         Label nameLabel = new Label("Titel:");
         TextField nameField = new TextField();
@@ -33,21 +70,27 @@ public class TaskApp extends Application {
 
         ListView<Task> taskListView = new ListView<>();
         taskListView.getItems().addAll(Commands.getAllTasks());
-        pane.add(taskListView,2,0,2,3);
+        pane.add(taskListView,2,row-1,2,3);
 
         Label descriptionLabel = new Label("Beschreibung:");
         TextArea descriptionField = new TextArea();
         descriptionField.setPromptText("Beschreibung...");
         descriptionField.setPrefHeight(200);
-        pane.add(descriptionLabel, 0, 1);
-        pane.add(descriptionField, 1, 1);
+        pane.add(descriptionLabel, 0, row);
+        pane.add(descriptionField, 1, row);
         row++;
 
         Label subjectLabel = new Label("Fach:");
         ComboBox<String> subjects = new ComboBox<>();
+      
+        //subjects.getItems().addAll(Subject.fromFile(Files.LEHRER_3A.toString()));
+        //pane.add(subjectLabel, 0, row);
+        //pane.add(subjects, 1, row);
+
         subjects.getItems().addAll(Subject.fromFile(InitFiles.LEHRER.toString()));
         pane.add(subjectLabel, 0, 2);
         pane.add(subjects, 1, 2);
+
         row++;
 
         Label abgabeOrtLabel = new Label("Abgabe Ort:");
@@ -166,8 +209,8 @@ public class TaskApp extends Application {
         });
 
         pane.addRow(row, addTask);
-        pane.add(removeSelected, 2, 3);
-        pane.add(showDetails, 3, 3);
+        pane.add(removeSelected, 2, 4);
+        pane.add(showDetails, 3, 4);
 
         stage.setScene(new Scene(pane));
         stage.setTitle("TaskApp");
@@ -183,6 +226,14 @@ public class TaskApp extends Application {
             err.setTitle("ERROR");
             err.setContentText("Fehler beim Speichern der Daten");
         }
+    }
+
+    private static Optional<File> getFileFromChooser(@NotNull Stage stage,@NotNull String title){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        return selectedFile == null ? Optional.empty() : Optional.of(selectedFile);
     }
     
     private static void setError(Node set){

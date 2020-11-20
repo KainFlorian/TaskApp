@@ -22,8 +22,9 @@ public class Main {
 //        String myPreference = userNode.get("My Preference","adsf");
 //        System.out.println(myPreference);
 
-
-
+        String myPreference = userNode.get("My Preference","adsf");
+        System.out.println(myPreference);
+        System.out.println(System.getenv("APPDATA"));
     }
 
     private static void writeTestData() {
