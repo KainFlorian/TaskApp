@@ -1,7 +1,7 @@
 package commands;
 
 import date.DateTime;
-import enums.Files;
+import enums.InitFiles;
 import handler.FileHandler;
 import javafx.collections.ObservableList;
 import handler.JSONHandler;
@@ -29,7 +29,7 @@ public class Commands {
 
     static {
         allTasks = new ArrayList<>();
-        loadDataFromFile(Files.TASKS.toString());
+        loadDataFromFile(InitFiles.TASKS.toString());
     }
 
     /**

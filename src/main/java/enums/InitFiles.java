@@ -2,15 +2,15 @@ package enums;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-public enum Files {
+public enum InitFiles {
 
     TASKS("tasks.json"),
-    LEHRER_3A("3ALehrer.json");
+    LEHRER("Lehrer.json");
 
 
     private String filepath;
 
-    private Files(String filepath) {
+    private InitFiles(String filepath) {
         this.filepath = filepath;
     }
 
