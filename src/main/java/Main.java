@@ -1,7 +1,8 @@
 
 import date.DateTime;
 import enums.AbgabeOrt;
-import json.JSONHandler;
+import handler.FileHandler;
+import handler.JSONHandler;
 import subject.Subject;
 import task.Task;
 
@@ -16,12 +17,14 @@ public class Main {
     public static void main(String[] args) {
 //        System.out.println(Commands.getAllTasks().toString());
 //        writeTestData();
-        Preferences userNode = Preferences.userNodeForPackage(Main.class);
+//        Preferences userNode = Preferences.userNodeForPackage(Main.class);
+//
+//        String myPreference = userNode.get("My Preference","adsf");
+//        System.out.println(myPreference);
 
         String myPreference = userNode.get("My Preference","adsf");
         System.out.println(myPreference);
         System.out.println(System.getenv("APPDATA"));
-
     }
 
     private static void writeTestData() {
@@ -30,7 +33,7 @@ public class Main {
         list.add(new Task("text", "", new Subject("POS", "SCRE"), AbgabeOrt.MOODLE, new DateTime()));
         list.add(new Task("cock", "", new Subject("TINF", "WEIX"), AbgabeOrt.EMAIL, new DateTime()));
         try {
-            JSONHandler.writeToFile(JSONHandler.listToJSONString(list, true), "src/main/resources/tasks.json");
+            FileHandler.writeToFile(JSONHandler.listToJSONString(list, true), "src/main/resources/tasks.json");
         } catch (IOException e) {
             e.printStackTrace();
         }

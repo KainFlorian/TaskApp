@@ -3,7 +3,7 @@ package gui;
 import commands.Commands;
 import date.DateTime;
 import enums.AbgabeOrt;
-import enums.Files;
+import enums.InitFiles;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -13,13 +13,13 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
 import subject.Subject;
 import task.Task;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-
 
 public class TaskApp extends Application {
     @Override
@@ -82,9 +82,15 @@ public class TaskApp extends Application {
 
         Label subjectLabel = new Label("Fach:");
         ComboBox<String> subjects = new ComboBox<>();
-        subjects.getItems().addAll(Subject.fromFile(Files.LEHRER_3A.toString()));
-        pane.add(subjectLabel, 0, row);
-        pane.add(subjects, 1, row);
+      
+        //subjects.getItems().addAll(Subject.fromFile(Files.LEHRER_3A.toString()));
+        //pane.add(subjectLabel, 0, row);
+        //pane.add(subjects, 1, row);
+
+        subjects.getItems().addAll(Subject.fromFile(InitFiles.LEHRER.toString()));
+        pane.add(subjectLabel, 0, 2);
+        pane.add(subjects, 1, 2);
+
         row++;
 
         Label abgabeOrtLabel = new Label("Abgabe Ort:");
@@ -214,7 +220,7 @@ public class TaskApp extends Application {
     @Override
     public void stop(){
         try {
-            Commands.saveData(Files.TASKS.toString());
+            Commands.saveData(InitFiles.TASKS.toString());
         } catch (IOException e) {
             Alert err = new Alert(Alert.AlertType.ERROR);
             err.setTitle("ERROR");

@@ -1,20 +1,17 @@
-package json;
+package handler;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
-import subject.Subject;
-import task.Task;
+
 
 import java.io.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.stream.Stream;
+
 
 public class JSONHandler {
 
@@ -41,35 +38,8 @@ public class JSONHandler {
         }
     }
 
-    /**
-     * Erstellt ein File mit dem angegebenem Text.
-     * Gibt es das File bereits wird es gelöscht.
-     *
-     * @param text der Text der geschrieben wird
-     * @param file der Filename
-     * @throws IOException Wird geworfen falls das File nicht gefunden wird
-     */
-    public static void writeToFile(@NotNull String text, @NotNull String file) throws IOException {
-        ClassLoader classLoader = JSONHandler.class.getClassLoader();
-        try (OutputStream writer = new FileOutputStream(new File(classLoader.getResource(file).getFile()))) {
-            writer.write(text.getBytes());
-        }
 
 
-    }
-
-    /**
-     * Fügt zu einem File den angegebenem Text hinzu.
-     *
-     * @param text der Text der geschrieben wird
-     * @param file der Filename
-     * @throws IOException Wird geworfen falls das File nicht gefunden wird
-     */
-    public static void appendToFile(@NotNull String text, @NotNull String file) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.append(text);
-        }
-    }
 
     /**
      * Generiert ein List Object mit der angegebenen JSON line
@@ -94,17 +64,7 @@ public class JSONHandler {
      * @throws IOException Falls das  File nicht Gefunden wird oder das Json nicht processed werden kann
      */
     public static <T> List<T> listFromFile(@NotNull String fileName,Class<T> tClass) throws IOException {
-        StringBuilder builder = new StringBuilder();
-
-        try(InputStream is = JSONHandler.class.getClassLoader().getResourceAsStream(fileName)){
-            InputStreamReader isReader = new InputStreamReader(is);
-            BufferedReader reader = new BufferedReader(isReader);
-            String str;
-            while((str = reader.readLine())!= null){
-                builder.append(str);
-            }
-        }
-        return listFromJSONSTRING(builder.toString(),tClass);
+        return listFromJSONSTRING(FileHandler.readFileAsString(fileName),tClass);
     }
 
 
