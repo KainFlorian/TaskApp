@@ -9,29 +9,17 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import org.jetbrains.annotations.NotNull;
 import subject.Subject;
 import task.Task;
 
-import javax.swing.text.html.Option;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.FormatStyle;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static java.time.format.FormatStyle.MEDIUM;
 
 public class TaskApp extends Application {
     @Override
@@ -41,7 +29,7 @@ public class TaskApp extends Application {
 //        pane.setGridLinesVisible(true);
         pane.setVgap(10);
         pane.setHgap(20);
-        pane.setPadding(new Insets(20));
+        pane.setPadding(new Insets(0, 20, 20, 20));
 
         // Menu
         MenuBar menu = new MenuBar();
@@ -72,10 +60,8 @@ public class TaskApp extends Application {
 
         settings.getItems().addAll(readSubjects, openTaskData);
         menu.getMenus().addAll(settings);
-
         pane.add(menu, 0,0, 4, 1);
         // -----------------------
-
 
         Label nameLabel = new Label("Titel:");
         TextField nameField = new TextField();
