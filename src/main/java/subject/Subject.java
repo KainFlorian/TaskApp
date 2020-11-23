@@ -72,8 +72,8 @@ public class Subject implements Comparable<Subject> {
         List<String> subjects = new ArrayList<>();
         fromFile.stream()
                 .map(Subject::toString)
+                .sorted(String::compareTo)
                 .forEach(subjects::add);
-        subjects.sort(String::compareTo);
         return subjects;
     }
 }
