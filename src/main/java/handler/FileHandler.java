@@ -4,6 +4,7 @@ import enums.InitFiles;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -192,12 +193,13 @@ public class FileHandler {
      * @param fileName der Filename
      * @throws FileNotFoundException Wird geworfen falls das File nicht gefunden wird
      */
-    public static void writeToFile(@NotNull String text, @NotNull String fileName) throws IOException {
+    public static void writeToFile(@NotNull String text, @NotNull String fileName)  throws IOException{
 
         String file = installPath + "/" +fileName;
         try (OutputStream writer = new FileOutputStream(new File(file))) {
             writer.write(text.getBytes());
         }
+
 
 
     }
