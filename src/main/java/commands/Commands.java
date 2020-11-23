@@ -57,11 +57,11 @@ public class Commands {
      */
     public static List<Task> getTasksDue(@NotNull DateTime due) {
         List<Task> tasksTillDueDate = new ArrayList<>();
-        for (Task task : allTasks) {
+        allTasks.forEach(task -> {
             if (task.getDueDate().compareTo(due) <= 0) {
                 tasksTillDueDate.add(task);
             }
-        }
+        });
         return tasksTillDueDate;
     }
 
@@ -73,11 +73,11 @@ public class Commands {
      */
     public static List<Task> getTasksInSubject(@NotNull Subject subject) {
         List<Task> tasksInSubject = new ArrayList<>();
-        for (Task task : allTasks) {
+        allTasks.forEach(task -> {
             if (task.getSubject().equals(subject)) {
                 tasksInSubject.add(task);
             }
-        }
+        });
         return tasksInSubject;
     }
 
@@ -88,11 +88,11 @@ public class Commands {
      */
     public static List<Task> getTasksInAbgabeOrt(@NotNull AbgabeOrt ort) {
         List<Task> tasksInOrt = new ArrayList<>();
-        for (Task task : allTasks) {
+        allTasks.forEach(task -> {
             if (task.getAbgabeOrt() == ort) {
                 tasksInOrt.add(task);
             }
-        }
+        });
         return tasksInOrt;
     }
 
@@ -104,11 +104,11 @@ public class Commands {
      */
     public static List<Task> getOverDueTasks(@NotNull DateTime date) {
         List<Task> tasksOverDue = new ArrayList<>();
-        for (Task task : allTasks) {
-            if (date.compareTo(task.getDueDate()) > 0) {
+        allTasks.forEach(task -> {
+            if(date.compareTo(task.getDueDate()) > 0){
                 tasksOverDue.add(task);
             }
-        }
+        });
         return tasksOverDue;
     }
 
@@ -161,7 +161,7 @@ public class Commands {
         allTasks.remove(index);
     }
 
-    public static void removeTask(ObservableList<Integer> tasks){
+    public static void removeTask(@NotNull ObservableList<Integer> tasks){
         for(int i : tasks){
             removeTask(i);
         }

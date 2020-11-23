@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,9 +43,9 @@ public class Subject implements Comparable<Subject> {
 
     @Override
     public int compareTo(@NotNull Subject o) {
-        if (this.subjectName.compareTo(o.subjectName) > 0)
-            return this.subjectName.compareTo(o.subjectName);
-        return this.subjectTeacher.compareTo(o.subjectTeacher);
+        return Comparator.comparing(Subject::getSubjectName)
+                .thenComparing(Subject::getSubjectTeacher)
+                .compare(this, o);
     }
 
     @Override

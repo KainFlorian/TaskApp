@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class DateTime implements Comparable<DateTime> {
 
@@ -225,7 +226,6 @@ public class DateTime implements Comparable<DateTime> {
         }
 
         helpTag = tageSeit1900;
-        tageSeit1900 = 0;
 
         this.tag = helpTag;
         this.monat = helpMonat;
@@ -241,20 +241,12 @@ public class DateTime implements Comparable<DateTime> {
      * @return Maximale Anzahl an Tagen in einem bestimmten Monat.
      */
     public static int maxDaysInMonth(int month, int jahr) {
-        int maxd = 0;
-        switch (month) {
-            case 1, 3, 5, 7, 8, 10, 12 -> maxd = 31;
-            case 4, 6, 9, 11 -> maxd = 31;
-            case 2 -> {
-                if (isSchaltjahr(jahr)) {
-                    maxd = 29;
-                } else {
-                    maxd = 28;
-                }
-            }
+        return switch (month) {
+            case 1, 3, 5, 7, 8, 10, 12 -> 31;
+            case 4, 6, 9, 11 -> 30;
+            case 2 -> isSchaltjahr(jahr) ? 29 : 28;
             default -> throw new IllegalArgumentException();
-        }
-        return maxd;
+        };
     }
 
     /**
@@ -296,13 +288,10 @@ public class DateTime implements Comparable<DateTime> {
      */
     @Override
     public int compareTo(DateTime d) {
-        if (this.tageSeit1900() != d.tageSeit1900()) {
-            return Integer.compare(this.tageSeit1900(), d.tageSeit1900());
-        } else if (this.stunden != d.stunden) {
-            return Integer.compare(this.stunden, d.stunden);
-        } else {
-            return Integer.compare(this.minuten, d.minuten);
-        }
+        return Comparator.comparing(DateTime::tageSeit1900)
+                .thenComparing(DateTime::getStunden)
+                .thenComparing(DateTime::getMinuten)
+                .compare(this, d);
     }
 
     /**
