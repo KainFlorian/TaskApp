@@ -175,7 +175,7 @@ public class FileHandler {
      * @return Inhalt des Files als InputStream
      * @throws FileNotFoundException Tritt auf wenn das File in ressource nicht exestiert
      */
-    public static InputStream readFileFromRessourceInputStream(String fileName) throws FileNotFoundException{
+    public static InputStream readFileFromRessourceAsInputStream(String fileName) throws FileNotFoundException{
 
         InputStream is;
         is = FileHandler.class.getClassLoader().getResourceAsStream(fileName);

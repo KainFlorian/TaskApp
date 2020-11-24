@@ -15,11 +15,14 @@ public class Setup extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(FileHandler.readFileFromRessourceInputStream((GUIFiles.SETUPFXML.getFilepath())));
+
+        Parent root = fxmlLoader.load(FileHandler.readFileFromRessourceAsInputStream(GUIFiles.SETUPFXML.getFilepath()));
 
         primaryStage.setTitle("Setup");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
     }
+
+
 }
