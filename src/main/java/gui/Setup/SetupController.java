@@ -33,11 +33,6 @@ public class SetupController implements Initializable {
         model = new SetupModel();
     }
 
-    public void addCount(){
-        model.setCount(model.getCount() + 1);
-
-        System.out.println(model.getCount());
-    }
 
     public void openInstallDirectory(){
         DirectoryChooser dc = new DirectoryChooser();
