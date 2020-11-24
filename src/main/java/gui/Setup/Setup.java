@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.ByteArrayInputStream;
+
 
 
 public class Setup extends Application {
@@ -17,7 +17,7 @@ public class Setup extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
 
         Parent root = fxmlLoader.load(FileHandler.readFileFromRessourceAsInputStream(GUIFiles.SETUPFXML.getFilepath()));
-
+        ((SetupController) fxmlLoader.getController()).setSetupStage(primaryStage);
         primaryStage.setTitle("Setup");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

@@ -28,7 +28,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="pathSelect" layoutX="272.0" layoutY="137.0" mnemonicParsing="false" onAction="#addCount" text="Button" />
+      <Button fx:id="pathSelect" layoutX="272.0" layoutY="137.0" mnemonicParsing="false" onAction="#openInstallDirectory" text="Button" />
       <TextField fx:id="pathInput" layoutX="59.0" layoutY="137.0" prefHeight="26.0" prefWidth="198.0" />
    </children>
 </AnchorPane>
