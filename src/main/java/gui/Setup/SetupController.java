@@ -31,6 +31,7 @@ public class SetupController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model = new SetupModel();
+        pathInput.setText(System.getProperty("user.home").toString() + "\\AppData\\Roaming\\TaskApp");
     }
 
 
