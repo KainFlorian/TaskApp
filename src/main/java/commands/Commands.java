@@ -177,6 +177,5 @@ public class Commands {
 
     public static void saveData(@NotNull String fileName) throws IOException {
         FileHandler.writeToFile(JSONHandler.listToJSONString(allTasks, true), fileName);
-
     }
 }

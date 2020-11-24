@@ -1,17 +1,13 @@
 package handler;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.io.*;
 
-
 import java.util.List;
-
 
 public class JSONHandler {
 
@@ -38,9 +34,6 @@ public class JSONHandler {
         }
     }
 
-
-
-
     /**
      * Generiert ein List Object mit der angegebenen JSON line
      *
@@ -66,6 +59,4 @@ public class JSONHandler {
     public static <T> List<T> listFromFile(@NotNull String fileName,Class<T> tClass) throws IOException {
         return listFromJSONSTRING(FileHandler.readFileAsString(fileName),tClass);
     }
-
-
 }

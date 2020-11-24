@@ -10,9 +10,6 @@ import java.nio.file.Paths;
 
 import static java.nio.file.StandardCopyOption.*;
 
-
-
-
 public class FileHandler {
 
     private static String installPath = "";
@@ -36,9 +33,7 @@ public class FileHandler {
         else{
             init(installPath);
         }
-
         FileHandler.installPath = installPath;
-
     }
 
     /**
@@ -84,7 +79,6 @@ public class FileHandler {
             }
         }
         return missingFiles;
-
     }
 
     /**
@@ -125,7 +119,6 @@ public class FileHandler {
         catch(IOException e){
             throw new FileNotFoundException("File wurde nicht gefunden");
         }
-
         return builder.toString();
     }
 
@@ -148,7 +141,6 @@ public class FileHandler {
      */
     public static String readFileFromRessourceAsString(String fileName) throws FileNotFoundException{
         StringBuilder builder = new StringBuilder();
-
 
         try (InputStream is = FileHandler.class.getClassLoader().getResourceAsStream(fileName)) {
             if(is == null){
@@ -175,7 +167,6 @@ public class FileHandler {
      * @throws FileNotFoundException Tritt auf wenn das File in ressource nicht exestiert
      */
     public static InputStream readFileFromRessourceInputStream(String fileName) throws FileNotFoundException{
-
         InputStream is;
         is = FileHandler.class.getClassLoader().getResourceAsStream(fileName);
         if(is == null){
@@ -193,14 +184,12 @@ public class FileHandler {
      * @throws FileNotFoundException Wird geworfen falls das File nicht gefunden wird
      */
     public static void writeToFile(@NotNull String text, @NotNull String fileName) throws IOException {
-
         String file = installPath + "/" +fileName;
         try (OutputStream writer = new FileOutputStream(new File(file))) {
             writer.write(text.getBytes());
         }
-
-
     }
+
     public static void appendToFile(@NotNull String text, @NotNull String fileName) throws FileNotFoundException{
         String file = installPath + "/" +fileName;
         try (OutputStream writer = new FileOutputStream(new File(file),true)) {
@@ -210,8 +199,4 @@ public class FileHandler {
             throw new FileNotFoundException("File wurde nicht gefunden");
         }
     }
-
-
-
-
 }

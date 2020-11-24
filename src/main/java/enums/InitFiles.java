@@ -7,7 +7,6 @@ public enum InitFiles {
     TASKS("tasks.json"),
     LEHRER("Lehrer.json");
 
-
     private String filepath;
 
     private InitFiles(String filepath) {
