@@ -28,7 +28,6 @@ public class Task {
     @JsonIgnore
     public final int NAME_FIRST = 4;
 
-
     public Task(@NotNull @JsonProperty("name") String name, @NotNull @JsonProperty("description") String description,
                 @NotNull @JsonProperty("subject") Subject subject,
                 @NotNull @JsonProperty("abgabeOrt") AbgabeOrt abgabeOrt, @NotNull @JsonProperty("dueDate") DateTime dueDate) {

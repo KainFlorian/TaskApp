@@ -22,6 +22,10 @@ public class Main {
 
         System.out.println(FileHandler.readFileFromRessourceAsString("gui/setup/setup.fxml"));
 
+//        String myPreference = userNode.get("My Preference","adsf");
+//        System.out.println(myPreference);
+//        System.out.println(System.getenv("APPDATA"));
+
     }
 
     private static void writeTestData() {

@@ -12,11 +12,10 @@ import java.util.prefs.Preferences;
 
 import static java.nio.file.StandardCopyOption.*;
 
-
-
 public class  FileHandler {
 
     private static final Preferences USER_PREFERENCE = Preferences.userNodeForPackage(FileHandler.class);
+
     private static String installPath = "";
 
     //initialisiert den installPath und hohlt es sich von der PrefrenceAPI
@@ -28,8 +27,6 @@ public class  FileHandler {
             e.printStackTrace();
         }
     }
-
-
 
     public static String getInstallPath() {
         return installPath;
@@ -60,9 +57,7 @@ public class  FileHandler {
                 return;
             }
         }
-
         FileHandler.USER_PREFERENCE.put(UserPreferences.INSTALLPATH.getPref(), installPath);
-
     }
 
     /**
@@ -88,7 +83,6 @@ public class  FileHandler {
      *
      * @return Anzahl der neu erstellten files
      */
-
     public static int repair(){
         if(FileHandler.doAllFilesExist()){
             return 0;
@@ -109,7 +103,6 @@ public class  FileHandler {
             }
         }
         return missingFiles;
-
     }
 
     /**
@@ -150,7 +143,6 @@ public class  FileHandler {
         catch(IOException e){
             throw new FileNotFoundException("File wurde nicht gefunden");
         }
-
         return builder.toString();
     }
 
@@ -182,7 +174,6 @@ public class  FileHandler {
         catch(IOException e){
             throw new FileNotFoundException("File in ressource not found");
         }
-
         return builder.toString();
     }
 
@@ -193,7 +184,6 @@ public class  FileHandler {
      * @throws FileNotFoundException Tritt auf wenn das File in ressource nicht exestiert
      */
     public static InputStream readFileFromRessourceAsInputStream(String fileName) throws FileNotFoundException{
-
         InputStream is;
         is = FileHandler.class.getClassLoader().getResourceAsStream(fileName);
         if(is == null){
@@ -224,12 +214,6 @@ public class  FileHandler {
         }
     }
 
-    /**
-     * Hängt an ein bereits bestehendes File text an
-     * @param text der Text der geschrieben wird
-     * @param fileName der Filename
-     * @throws FileNotFoundException Wird geworfen falls das File nicht gefunden wird
-     */
     public static void appendToFile(@NotNull String text, @NotNull String fileName) throws FileNotFoundException{
         String file = installPath + "\\" +fileName;
         try (OutputStream writer = new FileOutputStream(new File(file),true)) {
@@ -257,6 +241,4 @@ public class  FileHandler {
         }
         return directoryToBeDeleted.delete();
     }
-
-
 }

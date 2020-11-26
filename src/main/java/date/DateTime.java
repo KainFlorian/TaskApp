@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class DateTime implements Comparable<DateTime> {
 
@@ -64,31 +65,31 @@ public class DateTime implements Comparable<DateTime> {
             throw new IllegalArgumentException("Ungültiges Datum");
     }
 
-    public static DateTime ofGUIString(String textFromGui){
+    public static DateTime ofGUIString(String textFromGui) {
         String[] splitted = textFromGui.split("\\s+");
-        if(splitted.length != 2){
+        if (splitted.length != 2) {
             throw new IllegalArgumentException();
         }
 
         String[] splittedDate = splitted[0].split("\\.");
-        if(splittedDate.length != 3){
+        if (splittedDate.length != 3) {
             throw new IllegalArgumentException("date");
         }
         System.out.println(Arrays.toString(splittedDate));
 
         String[] splittedTime = splitted[1].split(":");
-        if(splittedTime.length != 2){
+        if (splittedTime.length != 2) {
             throw new IllegalArgumentException("time");
         }
 
-        try{
+        try {
             return new DateTime(Integer.parseInt(splittedDate[0]),
                     Integer.parseInt(splittedDate[1]),
                     Integer.parseInt(splittedDate[2]),
                     Integer.parseInt(splittedTime[0]),
                     Integer.parseInt(splittedTime[1])
             );
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("number");
         }
     }
@@ -109,8 +110,6 @@ public class DateTime implements Comparable<DateTime> {
         this.jahr = help.jahr;
         this.monat = help.monat;
         this.tag = help.tag;
-
-        //Uhrzeit standartmaessig auf 0
     }
 
     /**
@@ -135,7 +134,6 @@ public class DateTime implements Comparable<DateTime> {
         this.setMinuten(minuten);
         this.setStunden(stunden);
     }
-
 
     /**
      * Liefert die zwischen zwei Daten vergangenen Tage.
@@ -166,7 +164,7 @@ public class DateTime implements Comparable<DateTime> {
         if (o == null || getClass() != o.getClass())
             return false;
         DateTime datum = (DateTime) o;
-        return  minuten == datum.minuten &&
+        return minuten == datum.minuten &&
                 stunden == datum.minuten &&
                 tag == datum.tag &&
                 monat == datum.monat &&
@@ -223,14 +221,11 @@ public class DateTime implements Comparable<DateTime> {
             tageSeit1900 -= maxDaysInMonth(helpMonat, helpJahr);
             helpMonat++;
         }
-
         helpTag = tageSeit1900;
-        tageSeit1900 = 0;
 
         this.tag = helpTag;
         this.monat = helpMonat;
         this.jahr = helpJahr;
-
     }
 
     /**
@@ -241,20 +236,12 @@ public class DateTime implements Comparable<DateTime> {
      * @return Maximale Anzahl an Tagen in einem bestimmten Monat.
      */
     public static int maxDaysInMonth(int month, int jahr) {
-        int maxd = 0;
-        switch (month) {
-            case 1, 3, 5, 7, 8, 10, 12 -> maxd = 31;
-            case 4, 6, 9, 11 -> maxd = 31;
-            case 2 -> {
-                if (isSchaltjahr(jahr)) {
-                    maxd = 29;
-                } else {
-                    maxd = 28;
-                }
-            }
+        return switch (month) {
+            case 1, 3, 5, 7, 8, 10, 12 -> 31;
+            case 4, 6, 9, 11 -> 30;
+            case 2 -> isSchaltjahr(jahr) ? 29 : 28;
             default -> throw new IllegalArgumentException();
-        }
-        return maxd;
+        };
     }
 
     /**
@@ -296,13 +283,10 @@ public class DateTime implements Comparable<DateTime> {
      */
     @Override
     public int compareTo(DateTime d) {
-        if (this.tageSeit1900() != d.tageSeit1900()) {
-            return Integer.compare(this.tageSeit1900(), d.tageSeit1900());
-        } else if (this.stunden != d.stunden) {
-            return Integer.compare(this.stunden, d.stunden);
-        } else {
-            return Integer.compare(this.minuten, d.minuten);
-        }
+        return Comparator.comparing(DateTime::tageSeit1900)
+                .thenComparing(DateTime::getStunden)
+                .thenComparing(DateTime::getMinuten)
+                .compare(this, d);
     }
 
     /**
@@ -366,29 +350,21 @@ public class DateTime implements Comparable<DateTime> {
     @JsonIgnore
     public void setTag(int tag) throws IllegalArgumentException {
         switch (this.monat) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
+            case 1, 3, 5, 7, 8, 10, 12 -> {
                 if (tag > 31 || tag < 1)
                     throw new IllegalArgumentException(tag + " ist kein gültiger Tag.");
-                break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
+            }
+            case 4, 6, 9, 11 -> {
                 if (tag > 30 || tag < 1)
                     throw new IllegalArgumentException(tag + " ist kein gültiger Tag.");
-                break;
-            case 2:
+            }
+            case 2 -> {
                 if (isSchaltjahr(this.jahr)) {
                     if (tag > 29 || tag < 1)
                         throw new IllegalArgumentException(tag + " ist kein gültiger Tag.");
                 } else if (tag > 28 || tag < 1)
                     throw new IllegalArgumentException(tag + "ist kein gültiger Tag.");
+            }
         }
 
         this.tag = tag;
@@ -522,11 +498,11 @@ public class DateTime implements Comparable<DateTime> {
     /**
      * Überprüft ob die übergebenen Daten korrekt ist.
      *
-     * @param minuten  Minuten des zu überpüfenden Datums.
-     * @param stunden  Stunden des zu überpüfenden Datums.
-     * @param tag      Tag des zu überpüfenden Datums.
-     * @param monat    Monat des zu überpüfenden Datums.
-     * @param jahr     Jahr des zu überpüfenden Datums.
+     * @param minuten Minuten des zu überpüfenden Datums.
+     * @param stunden Stunden des zu überpüfenden Datums.
+     * @param tag     Tag des zu überpüfenden Datums.
+     * @param monat   Monat des zu überpüfenden Datums.
+     * @param jahr    Jahr des zu überpüfenden Datums.
      * @return true, wenn das Datum korrekt ist, ansonsten falls.
      */
     public static boolean korrektDatum(int minuten, int stunden, int tag, int monat, int jahr) {
@@ -565,6 +541,4 @@ public class DateTime implements Comparable<DateTime> {
         }
         return t;
     }
-
-
 }

@@ -1,7 +1,5 @@
 package enums;
 
-import java.util.Arrays;
-
 public enum AbgabeOrt {
 
     TEAMS("Teams"),
