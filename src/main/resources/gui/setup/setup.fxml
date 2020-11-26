@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="431.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Setup.SetupController">
    <children>
-      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -28,7 +28,9 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="pathSelect" layoutX="272.0" layoutY="137.0" mnemonicParsing="false" onAction="#openInstallDirectory" text="Button" />
-      <TextField fx:id="pathInput" layoutX="59.0" layoutY="137.0" prefHeight="26.0" prefWidth="198.0" />
+      <Button fx:id="pathSelect" layoutX="292.0" layoutY="137.0" mnemonicParsing="false" onAction="#openInstallDirectory" text="Pfad auswählen" AnchorPane.rightAnchor="39.80000000000001" />
+      <TextField fx:id="pathInput" layoutX="59.0" layoutY="137.0" prefHeight="26.0" prefWidth="233.0" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="139.0" />
+      <Button fx:id="weiterButton" layoutX="365.0" layoutY="261.0" mnemonicParsing="false" onAction="#install" text="Weiter" AnchorPane.rightAnchor="14.799999999999997" />
+      <Button fx:id="abbrechenButton" layoutX="279.0" layoutY="261.0" mnemonicParsing="false" onAction="#exit" text="Abbrechen" AnchorPane.rightAnchor="77.60000000000002" />
    </children>
 </AnchorPane>

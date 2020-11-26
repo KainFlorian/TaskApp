@@ -64,7 +64,7 @@ public class JSONHandler {
      * @throws IOException Falls das  File nicht Gefunden wird oder das Json nicht processed werden kann
      */
     public static <T> List<T> listFromFile(@NotNull String fileName,Class<T> tClass) throws IOException {
-        return listFromJSONSTRING(FileHandler.readFileAsString(fileName),tClass);
+        return listFromJSONSTRING(FileHandler.readFileFromRessourceAsString(fileName),tClass);
     }
 
 

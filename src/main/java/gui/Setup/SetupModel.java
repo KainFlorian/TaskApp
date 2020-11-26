@@ -1,18 +1,23 @@
 package gui.Setup;
 
+import handler.FileHandler;
+
+import java.io.IOException;
+
 public class SetupModel {
 
-    int count = 0;
 
     public SetupModel(){
 
     }
 
-    public int getCount() {
-        return count;
+    public void setInsallPath(String installPath){
+        try {
+            FileHandler.setInstallPath(installPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+
 }

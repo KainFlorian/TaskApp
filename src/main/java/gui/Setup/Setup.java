@@ -24,5 +24,4 @@ public class Setup extends Application {
 
     }
 
-
 }

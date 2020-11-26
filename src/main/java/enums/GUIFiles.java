@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 
 public enum GUIFiles {
 
-    SETUPFXML("gui/setup.fxml");
+    SETUPFXML("gui/setup/setup.fxml");
 
     private String filepath;
 

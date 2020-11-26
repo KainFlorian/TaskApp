@@ -3,15 +3,12 @@ import date.DateTime;
 import enums.AbgabeOrt;
 import gui.TaskApp;
 import handler.FileHandler;
-import handler.JSONHandler;
 import subject.Subject;
 import task.Task;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.prefs.Preferences;
 
 
 public class Main {
@@ -23,7 +20,7 @@ public class Main {
 //        String myPreference = userNode.get("My Preference","adsf");
 //        System.out.println(myPreference);
 
-        System.out.println(FileHandler.readFileFromRessourceAsString("gui/setup.fxml"));
+        System.out.println(FileHandler.readFileFromRessourceAsString("gui/setup/setup.fxml"));
 
     }
 

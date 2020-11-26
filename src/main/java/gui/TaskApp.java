@@ -177,7 +177,8 @@ public class TaskApp extends Application {
     @Override
     public void stop(){
         try {
-            Commands.saveData(InitFiles.TASKS.toString());
+            throw new IOException();
+            //Commands.saveData(InitFiles.TASKS.toString());
         } catch (IOException e) {
             Alert err = new Alert(Alert.AlertType.ERROR);
             err.setTitle("ERROR");
