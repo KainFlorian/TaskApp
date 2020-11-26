@@ -92,17 +92,13 @@ public class Task {
     }
 
     public String toString(int format) {
-        switch (format) {
-            case 1:
-                return this.subject + "\n\t" + this.name + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate + "\n";
-            case 2:
-                return this.dueDate + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n";
-            case 3:
-                return this.abgabeOrt + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.dueDate + "\n";
-            case 4:
-                return this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate + "\n";
-        }
-        return toString();
+        return switch (format) {
+            case 1 -> this.subject + "\n\t" + this.name + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate + "\n";
+            case 2 -> this.dueDate + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n";
+            case 3 -> this.abgabeOrt + "\n\t" + this.name + "\n\t" + this.subject + "\n\t" + this.dueDate + "\n";
+            case 4 -> this.name + "\n\t" + this.subject + "\n\t" + this.abgabeOrt + "\n\t" + this.dueDate + "\n";
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     @Override
