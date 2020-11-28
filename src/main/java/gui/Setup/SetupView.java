@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 
 
-public class Setup extends Application {
+public class SetupView extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -21,7 +21,5 @@ public class Setup extends Application {
         primaryStage.setTitle("Setup");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-
     }
-
 }

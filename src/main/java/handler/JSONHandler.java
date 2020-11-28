@@ -27,11 +27,8 @@ public class JSONHandler {
 //Greife nicht auf die Objecte in <code>list</code> zu, daher muss ich den generic nicht zuweisen
     public static String listToJSONString(@NotNull List list, boolean prettifyOutput) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
-        if (prettifyOutput) {
-            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
-        } else {
-            return mapper.writeValueAsString(list);
-        }
+        return prettifyOutput ? mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list)
+                              : mapper.writeValueAsString(list);
     }
 
     /**

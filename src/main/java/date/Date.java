@@ -178,7 +178,7 @@ public class Date implements Comparable<Date>{
         }
 
         helpTag = tageSeit1900;
-        tageSeit1900 = 0;
+
 
         this.tag = helpTag;
         this.monat = helpMonat;
@@ -231,7 +231,7 @@ public class Date implements Comparable<Date>{
     public int wochentagNummer() {
         //return (this.tag - 5) % 7;
         int a = this.jahr - 1;
-        int erg = (a + (int) (a / 4) - (int) (a / 100) + (int) (a / 400) + tageImJahr()) % 7;
+        int erg = (a +  (a / 4) -  (a / 100) + (a / 400) + tageImJahr()) % 7;
         return (erg == 0 ? 6 : erg - 1);
     }
 
@@ -276,7 +276,6 @@ public class Date implements Comparable<Date>{
      * Liefert eine Stringdarstellung i n der Form <code>tt.mm.jjjj</code>
      *
      * @return Stringdarstellung i n der Form <code>tt.mm.jjjj</code>QA QA
-     * @override
      */
     @Override
     public String toString() {

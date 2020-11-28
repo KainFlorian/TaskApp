@@ -82,14 +82,14 @@ public class TaskApp extends Application {
 
         Label subjectLabel = new Label("Fach:");
         ComboBox<String> subjects = new ComboBox<>();
-      
-        //subjects.getItems().addAll(Subject.fromFile(Files.LEHRER_3A.toString()));
-        //pane.add(subjectLabel, 0, row);
-        //pane.add(subjects, 1, row);
 
         subjects.getItems().addAll(Subject.fromFile(InitFiles.LEHRER.toString()));
-        pane.add(subjectLabel, 0, 2);
-        pane.add(subjects, 1, 2);
+        pane.add(subjectLabel, 0, row);
+        pane.add(subjects, 1, row);
+
+//
+//        pane.add(subjectLabel, 0, 2);
+//        pane.add(subjects, 1, 2);
 
         row++;
 
@@ -220,8 +220,8 @@ public class TaskApp extends Application {
     @Override
     public void stop(){
         try {
-            throw new IOException();
-            //Commands.saveData(InitFiles.TASKS.toString());
+
+            Commands.saveData(InitFiles.TASKS.toString());
         } catch (IOException e) {
             Alert err = new Alert(Alert.AlertType.ERROR);
             err.setTitle("ERROR");

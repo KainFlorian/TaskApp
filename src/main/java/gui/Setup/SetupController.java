@@ -18,6 +18,8 @@ public class SetupController implements Initializable {
 
 
     private final SetupModel MODEL = new SetupModel();
+    public Button pathSelect;
+
     private Stage setupStage;
 
     @FXML
