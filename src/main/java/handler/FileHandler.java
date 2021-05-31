@@ -166,7 +166,7 @@ public class  FileHandler {
     public static String readFileFromRessourceAsString(String fileName) throws FileNotFoundException{
         StringBuilder builder = new StringBuilder();
         String str;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(FileHandler.readFileAsInputStream(fileName), "UTF-8"));) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(FileHandler.readFileFromRessourceAsInputStream(fileName), "UTF-8"));) {
             while((str = br.readLine()) != null) {
                 builder.append(str);
             }
